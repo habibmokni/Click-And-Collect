@@ -1,0 +1,36 @@
+<mat-stepper class="example-stepper"
+[orientation]="(stepperOrientation | async)!">>
+  <mat-step [stepControl]="firstFormGroup" label="Choose delivery method">
+    <form [formGroup]="firstFormGroup">
+      <app-shipping-methods [shippingMethod]="shippingMethod"></app-shipping-methods>
+      <div fxLayout fxLayoutAlign="center center">
+        <button mat-button matStepperNext >Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" label="Enter billing details">
+    <form [formGroup]="secondFormGroup">
+      <app-billing-details [billing]="billing"></app-billing-details>
+      <div fxLayout fxLayoutAlign="center center">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="thirdFormGroup" label="Choose payment options">
+    <form [formGroup]="thirdFormGroup">
+      <app-payment-methods [paymentMethod]="paymentMethod"></app-payment-methods>
+      <div fxLayout fxLayoutAlign="center center">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext (click)="onSubmit()">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step fxLayout="column" fxLayoutAlign="center center">
+    <ng-template matStepLabel >Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+    </div>
+  </mat-step>
+</mat-stepper>
