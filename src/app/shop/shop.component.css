@@ -1,0 +1,171 @@
+.shop {
+  margin: 25px 10px;
+  height: auto;
+}
+.left-grid {
+  flex: 1;
+}
+.right-grid {
+  flex: 2;
+}
+
+.cards{
+  margin: 80px 25px;
+
+}
+.top-rated {
+  padding-left: 10px;
+}
+.title-background {
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  height: 320px;
+}
+
+.third-div {
+  width: 100%;
+  padding: 5px 25px;
+  vertical-align: middle;
+}
+.forth-div {
+  width: 100%;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+
+.product-image {
+  height: 120px;
+  width: 180px;
+  transform: rotate(-23deg);
+  position: relative;
+  left: 40px;
+  top: 25px;
+  margin-bottom: 85px;
+}
+
+img {
+  width: 85px;
+}
+.top-rated a {
+  text-decoration: none;
+  color: black;
+}
+.product-card {
+  width: 100%;
+  height: auto;
+}
+.product-image-list {
+  height: auto;
+  flex: 1;
+}
+.product-image-list img{
+  height: 280px;
+  width: 70%;
+  position: relative;
+  left: 50px;
+  top: 50px;
+}
+.product-details {
+  flex: 1;
+}
+
+.product-title {
+  padding: 25px 0px;
+  font-size: 30px;
+  line-height: 40px;
+  color: black;
+}
+.products-add {
+  flex-wrap: wrap;
+}
+.product-icon {
+  font-size: 18px;
+  padding: 10px 10px;
+  border-radius: 100%;
+  color: black;
+}
+.product-features {
+  padding: 5px 0px;
+}
+
+.spinner{
+  margin: 20px auto;
+}
+.discounted{
+  color: #cf3232;
+  font-size: 13px;
+}
+
+@media (max-width: 899px) {
+  .title {
+    font-size: 46px;
+    top: 10%;
+    left: 33%;
+  }
+  .products-add {
+    flex-wrap: wrap;
+  }
+  .forth-div h1 {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  h2{
+    font-size: 14px;
+  }
+  .product-image {
+    height: 150px;
+    width: 150px;
+    left: 50px;
+}
+
+}
+
+@media (max-width: 599px) {
+  .title-background {
+    height: 140px;
+  }
+  .title {
+    font-size: 40px;
+    top: 10%;
+    left: 33%;
+  }
+  .product-title {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 0px;
+    padding: 14px 0px;
+  }
+  .product-features {
+    padding: 0px 0px;
+  }
+  .product-image {
+    height: 90px;
+    width: 100px;
+    left: 50px;
+  }
+  .forth-div h1 {
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .product-image-list img {
+    top: 56px;
+    left: 10px;
+    height: 100px;
+    width: 100%;
+  }
+  .product-details{
+    flex: 3;
+  }
+  h2{
+    font-size: 14px;
+  }
+  .products-add{
+    flex: 1;
+  }
+}
+
