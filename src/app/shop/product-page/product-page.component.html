@@ -1,0 +1,113 @@
+<div class="product_main" fxFlex fxLayout.gt-xs>
+  <div class="product_image">
+    <div class="product_image_background" fxLayout="column">
+      <div class="back_to_search" fxLayout fxHide.gt-xs>
+        <a mat-button><mat-icon>arrow_back_ios</mat-icon>Back to search</a>
+        <span class="filler"></span>
+        <button mat-icon-button class="favourite"><mat-icon [ngStyle]="{fontSize: '20px'}">favorite</mat-icon></button>
+      </div>
+      <div fxLayout class="product_image_background_circle_outer" [ngStyle]="{background: colorSelected+'50' }">
+        <div class="product_image_background_circle_inner" [ngStyle]="{background: colorSelected }">
+          <div class="product_image_image">
+            <img id="img" src="{{productImage}}" alt="image">
+          </div>
+        </div>
+      </div>
+      <div class="reviews" fxLayout>
+        <button mat-button>(87) 4.8<mat-icon [ngStyle]="{color: 'yellow'}">star_rate</mat-icon></button>
+        <span class="filler"></span>
+        <div class="slider_buttons">
+          <mat-radio-group (change)="onColorPick($event)">
+            <mat-radio-button
+            *ngFor="let color of product.availableColors; let i=index"
+            [value]=(i)
+            checked
+            ></mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div>
+    <div class="product_availability" fxLayout="column" fxHide.xs fxLayoutAlign="center center">
+      <h4>Check Availability for pickup</h4>
+      <button mat-button (click)="openDialog()">Open dialog</button>
+    </div>
+  </div>
+
+  <div class="product_description">
+    <div>
+      <div fxLayout="row">
+        <div fxLayout="column">
+          <h1 class="product_title">{{product.name}}</h1>
+          <h5 class="product_subtitle">{{product.subCategory}}</h5>
+        </div>
+        <span class="filler"></span>
+          <h2 class="product_price">${{product.price}}</h2>
+      </div>
+      <h2 class="product_description_title">Description</h2>
+      <h4 class="product_info">This Shoe is made from MATT BO fabric which is 100% cotton. This holster has a surface with graphic and colorful prints in an organic form.</h4>
+
+    </div>
+    <div class="product_color">
+      <h2>Available Color</h2>
+      <div >
+        <mat-button-toggle-group name="colorSelector" appearance="legacy" aria-label="Font Style" (change)="onColorPick($event)" [ngStyle]="{boxShadow: 'none'}">
+          <mat-button-toggle
+          *ngFor="let color of product.availableColors;let i=index"
+          mat-mini-fab
+          [value]=(i)
+          class="product_color_list"
+          [ngStyle]="{backgroundColor: color}"></mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+    <div class="product_size">
+      <h2>Available Sizes</h2>
+      <div class="product_size_list">
+        <button
+        *ngFor="let size of product.availableSizes; let i=index"
+        class="button"
+        mat-raised-button
+        (click)="onSizeSelect(size,i)"
+        >{{size}}</button>
+      </div>
+    </div>
+    <div class="product_quantity" fxLayout="row">
+      <h2>Items</h2>
+      <span class="filler"></span>
+      <div fxLayout="row">
+        <button mat-icon-button (click)="onRemoveItem()"><mat-icon [ngStyle]="{fontSize: '16px'}">remove</mat-icon></button>
+        <h2>{{noOfItems}}</h2>
+        <button mat-icon-button (click)="onAddItem()"><mat-icon [ngStyle]="{fontSize: '16px'}">add</mat-icon></button>
+      </div>
+    </div>
+    <div class="product_availability" fxHide.gt-xs>
+      <h4>Check Availability for pickup</h4>
+      <form action="">
+        <mat-form-field class="product_availability_zipcode">
+          <input matInput type="text" placeholder="Enter zip code">
+        </mat-form-field>
+      </form>
+    </div>
+    <div class="product_total_amount">
+      <div fxLayout>
+        <h2>Total:</h2>
+        <span class="filler"></span>
+        <h2>${{product.price*noOfItems}}.00</h2>
+      </div>
+      <div fxLayout>
+        <h2>Fee:</h2>
+        <span class="filler"></span>
+        <h2>${{fee}}.00</h2>
+      </div>
+      <hr>
+      <div class="grand_total" fxLayout>
+        <h2>Grand Total:</h2>
+        <span class="filler"></span>
+        <h2>${{grandTotal}}.00</h2>
+      </div>
+    </div>
+    <div>
+      <button class="add_to_cart" mat-raised-button><h3 [ngStyle]="{marginBottom: '0px'}">Add to Cart</h3></button>
+    </div>
+  </div>
+</div>
