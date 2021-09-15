@@ -11,5 +11,6 @@ export class AppComponent {
 
   constructor(private storeService: StoreService){
     this.storeService.fetchStore();
+    this.storeService.getStoreLocations
   }
 }

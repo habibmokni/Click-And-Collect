@@ -8,7 +8,7 @@
   <div [formGroup]="shippingMethod">
       <input type="text" formControlName="type" [formControl]="type" style="display: none;">
     <div class="pickup_map" fxLayoutAlign="center center">
-      <app-maps></app-maps>
+      <app-maps [mapHeight]="mapHeight" [mapWidth]="mapWidth"></app-maps>
     </div>
     <div class="pickup_date" >
       <mat-form-field appearance="fill" fxLayoutAlign="center center">

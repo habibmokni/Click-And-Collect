@@ -18,3 +18,9 @@
 .example-radio-button {
   flex-flow: row-reverse;
 }
+@media (max-width:599px) {
+  .card{
+    width: 100%;
+  }
+
+}

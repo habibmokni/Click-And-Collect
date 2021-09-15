@@ -12,3 +12,13 @@
 .pickup_map {
   height: 500px;
 }
+
+@media (max-width: 599px){
+  .delivery_type button{
+    margin: 5px;
+  }
+  .map-container{
+    width: 90vw;
+    height: 50vh;
+  }
+}

@@ -2,7 +2,11 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background: #f2f2f2;}
+
+span.mat-button-toggle-label-content{
+  padding: 0px;
+}
 
 h1 {
   font-size: 32px;
@@ -32,3 +36,4 @@ h5 {
   letter-spacing: 0.5px;
   line-height: 50%;
 }
+

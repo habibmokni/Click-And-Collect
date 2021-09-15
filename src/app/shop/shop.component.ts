@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faLeaf, faBox, faMoneyCheck,faShoppingCart,faHeart, faSeedling, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Observable } from 'rxjs';
 import { Product } from '../shared/models/product.model';
 import { Store } from '../shared/models/store.model';
 import { ProductService } from '../shared/services/product.service';
@@ -26,7 +27,7 @@ export class ShopComponent implements OnInit {
   productList?: Product[];
   isLoading = true;
 
-  store: Store[] = [];
+  store!: Store[];
 
   constructor(
     private productService: ProductService,
@@ -35,7 +36,7 @@ export class ShopComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    setTimeout(()=>{
+      setTimeout(()=>{
       this.isLoading = false;
       this.store = this.storeService.store;
       console.log(this.store);

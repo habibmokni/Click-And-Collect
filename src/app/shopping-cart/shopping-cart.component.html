@@ -1,16 +1,16 @@
-<div class="my_cart" fxFlex fxLayout fxLayout.xs="column">
+<div class="my_cart" fxFlex fxLayout.gt-xs *ngIf="cartProducts.length>0">
   <div class="shopping_cart">
     <div class="back_to_product" fxLayout fxHide.gt-xs>
-      <button mat-button><mat-icon>arrow_back_ios</mat-icon></button>
+      <button mat-button routerLink="/"><mat-icon>arrow_back_ios</mat-icon></button>
       <h2 fxLayoutAlign="center center" class="my_cart_title">My Cart</h2>
     </div>
     <div class="items">
       <div fxLayout>
         <h2 class="items_header">Items</h2>
-        <hr [ngStyle]="{width: '260px'}">
+        <hr>
       </div>
       <div class="items_list">
-        <mat-card class="items_list_item" fxLayout *ngFor="let product of productList; let i=index">
+        <mat-card class="items_list_item" fxLayout *ngFor="let product of cartProducts; let i=index">
           <div class="item_image_background" [ngStyle]="{backgroundColor: product.color}">
             <img class="item_image" src="{{product.productImage}}" alt="image">
           </div>
@@ -19,100 +19,53 @@
             <h4 class="item_price">${{product.price}}</h4>
           </div>
           <div fxLayout="row" fxLayoutAlign="end end">
-            <button mat-icon-button class="items_list_button" (click)="noOfItems=noOfItems-1"><mat-icon [ngStyle]="{fontSize: '16px'}">remove</mat-icon></button>
-            <h2 [ngStyle]="{margin: '0px 3px'}">{{noOfItems}}</h2>
-            <button mat-icon-button class="items_list_button" (click)="noOfItems=noOfItems+1"><mat-icon [ngStyle]="{fontSize: '16px'}">add</mat-icon></button>
+            <h4 style="color: red;" fxHide.xs>Items in stock: {{product.inStock}}</h4>
+            <button mat-icon-button style="padding-top: 8px;" (click)="removeCartProduct(product)"><mat-icon>delete_forever</mat-icon></button>
+            <button mat-icon-button class="items_list_button" (click)="onRemoveItem(i)"><mat-icon [ngStyle]="{fontSize: '16px'}">remove</mat-icon></button>
+            <h2 [ngStyle]="{margin: '0px 3px'}">{{product.noOfItems}}</h2>
+            <button mat-icon-button class="items_list_button" (click)="onAddItem(i)"><mat-icon [ngStyle]="{fontSize: '16px'}">add</mat-icon></button>
           </div>
         </mat-card>
       </div>
     </div>
-    <div class="delivery_type" fxLayout="column" fxLayoutAlign="center center">
-      <h2>Delivery type</h2>
-      <div>
-        <button mat-button><mat-icon>store_front</mat-icon><h4>Store</h4></button>
-        <button mat-button><mat-icon>transfer_within_a_station</mat-icon><h4>Pickup</h4></button>
-        <button mat-button><mat-icon>local_shipping</mat-icon><h4>Delivery</h4></button>
-      </div>
-      <div class="pickup_map" fxLayoutAlign="center center">
-        <app-maps></app-maps>
-      </div>
-      <div class="pickup_date" >
-        <mat-form-field appearance="fill" fxLayoutAlign="center center">
-          <mat-label>Enter a date range</mat-label>
-          <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-            <input matStartDate formControlName="start" placeholder="Start date">
-            <input matEndDate formControlName="end" placeholder="End date">
-          </mat-date-range-input>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
-
-          <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-          <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-        </mat-form-field>
-
-        <p>Selected range: {{range.value | json}}</p>
-      </div>
-    </div>
-    <div class="billing_address" fxLayout="column" fxLayoutAlign="center center">
-      <h2>Billing Address</h2>
-      <form action="" class="billing_address_form" fxLayout="column">
-        <mat-form-field>
-          <mat-label>Name</mat-label>
-          <input matInput type="text" placeholder="Name">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput type="text" placeholder="Name">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Phone no</mat-label>
-          <input matInput type="text" placeholder="Name">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Address 1</mat-label>
-          <input matInput type="text" placeholder="Name">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Address 2</mat-label>
-          <input matInput type="text" placeholder="Name">
-        </mat-form-field>
-      </form>
-    </div>
-    <div class="payment_method">
-      <mat-radio-group
-        aria-labelledby="example-radio-group-label"
-        class="example-radio-group"
-       >
-        <mat-radio-button  class="example-radio-button" *ngFor="let payment of paymentPartner" [value]="payment">
-          <img src="{{payment.logo}}" alt="image" [ngStyle]="{width: '40px'}">{{payment.name}}
-        </mat-radio-button>
-      </mat-radio-group>
-    </div>
   </div>
 
-  <div>
-    <div class="product_total_amount">
-      <div fxLayout>
-        <h2>Total:</h2>
-        <span class="filler"></span>
-        <h2>$199.99</h2>
+  <mat-card style="margin: auto;">
+    <mat-card-content>
+      <div class="product_total_amount">
+        <div fxLayout>
+          <h2>Total:</h2>
+          <span class="filler"></span>
+          <h2>${{grandtotal}}</h2>
+        </div>
+        <div fxLayout>
+          <h2>Fee:</h2>
+          <span class="filler"></span>
+          <h2>$0.00</h2>
+        </div>
+        <hr>
+        <div class="grand_total" fxLayout>
+          <h2>Grand Total:</h2>
+          <span class="filler"></span>
+          <h2>${{grandtotal}}</h2>
+        </div>
       </div>
-      <div fxLayout>
-        <h2>Fee:</h2>
-        <span class="filler"></span>
-        <h2>$0.00</h2>
+    </mat-card-content>
+    <mat-card-actions>
+      <div style="text-align: center;">
+        <button
+        class="add_to_cart"
+        mat-raised-button
+        routerLink="/checkout"
+        >
+          <h3 [ngStyle]="{marginBottom: '0px'}">Proceed to Checkout</h3>
+        </button>
       </div>
-      <hr>
-      <div class="grand_total" fxLayout>
-        <h2>Grand Total:</h2>
-        <span class="filler"></span>
-        <h2>$199.99</h2>
-      </div>
-      <div>
-        <button class="add_to_cart" mat-raised-button><h3 [ngStyle]="{marginBottom: '0px'}">Place Order</h3></button>
-      </div>
-    </div>
+    </mat-card-actions>
+  </mat-card>
 
-  </div>
-
+</div>
+<div class="no-product" *ngIf="cartProducts.length ===0">
+  <h1>{{messageTitle}}</h1>
+  <h3>{{messageDescription}}</h3>
 </div>

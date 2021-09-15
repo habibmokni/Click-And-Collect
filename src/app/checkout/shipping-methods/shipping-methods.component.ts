@@ -11,9 +11,17 @@ export class ShippingMethodsComponent implements OnInit {
   type= new FormControl;
   @Input() shippingMethod!: FormGroup;
 
+  mapHeight = 410;
+  mapWidth = 350;
+  private screenSize = screen.width;
+
   constructor() { }
 
   ngOnInit(): void {
+    if(this.screenSize <= 599){
+      this.mapHeight= 410;
+      this.mapWidth= 350;
+    }
   }
 
   onTypeSelect(){

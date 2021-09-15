@@ -2,6 +2,9 @@
   flex: 2;
   margin: 25px 70px;
 }
+hr{
+  width: 260px;
+}
 .my_cart_title{
   font-size: 20px;
   text-align: center;
@@ -45,39 +48,9 @@
   color: white;
   line-height: 17px;
 }
-.delivery_type button{
-  border: solid #535353 2px;
-  width: 84px;
-  height: 95px;
-  border-radius: 20px;
-  margin: 15px;
-  opacity: 0.5;
-}
-.delivery_type button:focus {
-  opacity: 1;
-}
-.pickup_map {
-  height: 243px;
-}
-.billing_address_form mat-form-field{
-  width: 300px;
-}
-.example-radio-group {
-  display: flex;
-  flex-direction: column;
-  margin: 15px 25px;
-}
-
-.example-radio-button {
-  margin: 5px;
-}
-.example-radio-button {
-  flex-flow: row-reverse;
-}
 
 .product_total_amount{
   flex: 1;
-  margin: 25px 25px;
 }
 .product_total_amount h2{
   font-weight: 400;
@@ -93,13 +66,17 @@
   height: 40px;
   font-weight: 700;
   line-height: 22px;
-  margin: 25px 25px;
+  margin: 25px 0px;
 }
 .filler {
   flex: 1 auto;
 }
 
 @media (max-width: 599px){
+  .shopping_cart{
+    margin: 0px;
+    display: block;
+  }
   .back_to_product{
     width: 100vw;
   }
@@ -139,45 +116,18 @@
     margin: 2.5px;
   }
   .items_list_button {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);
     color: white;
     line-height: 17px;
   }
-  .delivery_type button{
-    border: solid #535353 2px;
-    width: 84px;
-    height: 95px;
-    border-radius: 20px;
-    margin: 15px;
-    opacity: 0.5;
-  }
-  .delivery_type button:focus {
-    opacity: 1;
-  }
-  .pickup_map {
-    height: 243px;
-  }
-  .billing_address_form mat-form-field{
-    width: 300px;
-  }
-  .example-radio-group {
-    display: flex;
-    flex-direction: column;
-    margin: 15px 25px;
-  }
-
-  .example-radio-button {
-    margin: 5px;
-  }
-  .example-radio-button {
-    flex-flow: row-reverse;
-  }
 
   .product_total_amount{
-    margin: 25px 25px;
+    margin: auto;
+    display: block;
+    width: 90vw;
   }
   .product_total_amount h2{
     font-weight: 400;
@@ -189,14 +139,18 @@
     background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);
     color: white;
     border-radius: 15px;
-    width: 327px;
+    width: 90vw;
     height: 55px;
     font-weight: 700;
     line-height: 22px;
-    margin: 25px 25px;
+    margin: 25px 0px;
   }
   .filler {
     flex: 1 auto;
+  }
+
+  hr{
+    width: 60vw;
   }
 
 }

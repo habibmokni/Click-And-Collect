@@ -96,4 +96,10 @@ export class ProductPageComponent implements OnInit {
     });
   }
 
+  addToCart(){
+    this.product.color = this.colorSelected;
+    this.product.noOfItems = this.noOfItems;
+    console.log(this.product);
+    this.productService.addToCart(this.product);
+  }
 }

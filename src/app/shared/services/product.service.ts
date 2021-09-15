@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
-import { AngularFirestore } from "@angular/fire/compat/firestore";
+import { AngularFirestore, AngularFirestoreDocument } from "@angular/fire/compat/firestore";
 import { Product } from "../models/product.model";
 import { ToastrService } from "./toastr.service";
 import { StoreService } from "./store.service";
 @Injectable()
 export class ProductService{
+
 
   product!: Product;
 
@@ -16,14 +17,14 @@ export class ProductService{
 
 
   deleteProduct(key: string){
-
+    //this.productList.remove(key);
   }
     // Adding new Product to cart db if logged in else localStorage
     addToCart(data: Product): void {
       const a: Product[] = JSON.parse(localStorage.getItem("avct_item")!) || [];
       a.push(data);
 
-      this.toastrService.info("Adding Product to Cart","Product Adding to the cart");
+      //this.toastrService.info("Adding Product to Cart","Product Adding to the cart");
       setTimeout(() => {
         localStorage.setItem("avct_item", JSON.stringify(a));
       }, 500);
@@ -57,7 +58,8 @@ export class ProductService{
     // Fetching Locat CartsProducts
     getLocalCartProducts(): Product[] {
       const products: Product[] =
-        JSON.parse(localStorage.getItem("avct_item")!) || [];
+        JSON.parse(window.localStorage.getItem("avct_item")!) || [];
+        console.log('get cart items called' + products) ;
 
       return products;
     }

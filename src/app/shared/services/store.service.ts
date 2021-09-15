@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/compat/firestore";
 import { Store } from "../models/store.model";
 import { map } from "rxjs/operators"
+import { Observable } from "rxjs";
 
 
 @Injectable()
@@ -10,7 +11,7 @@ export class StoreService{
   currentStoreLocation: {lat: number, lng: number} = {lat: 0, lng: 0};
   currentStore: Store;
 
-  selectedStoreLocation: {lat: number, lng: number} = {lat: 0, lng: 0};
+  selectedStore!: {address: string, location:{ lat: number, lng:number}};
   storeLocations: {lat: number, lng: number}[] = [];
 
   markerPositions: google.maps.LatLngLiteral[] = [
@@ -70,7 +71,7 @@ export class StoreService{
 ]
 
   constructor(private db: AngularFirestore){
-    this.storeCollection = db.collection('storeList');
+    this.storeCollection = db.collection<Store>('storeList');
     this.fetchStore();
     this.getStoreLocations();
     this.currentStore =
@@ -145,9 +146,13 @@ export class StoreService{
       this.store = store;
     })
   }
+  //fetchStore(){
+  //  this.store = this.storeCollection.valueChanges()
+  //}
   getStore(){
     return this.store;
   }
+
   getStoreLocations(){
     this.db.collection<{lat: number, lng:number}>('storeLocations')
     .snapshotChanges()
@@ -171,4 +176,5 @@ export class StoreService{
   addStoreLocations(location: {lat: string, lng: string}){
    this.db.collection('storeLocations').add(location);
   }
+
 }

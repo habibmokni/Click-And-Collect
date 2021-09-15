@@ -2,14 +2,12 @@
 <div mat-dialog-content class="content">
   <mat-tab-group mat-align-tabs="start">
     <mat-tab label="Address">
-      <form action="" fxLayout fxLayoutAlign="center center">
-        <mat-form-field class="product_availability_zipcode" style="width: 230px; margin-top: 10px;">
-          <input matInput type="text" placeholder="Enter zip code or address">
-        </mat-form-field>
-      </form>
+      <mat-form-field class="product_availability_zipcode" style="width: 230px; margin-top: 10px;">
+        <input id="search" matInput type="text" placeholder="Enter zip code or address">
+      </mat-form-field>
     </mat-tab>
     <mat-tab label="Map" class="maps">
-      <app-maps></app-maps>
+      <app-maps [mapHeight]="mapHeight" [mapWidth]="mapWidth"></app-maps>
     </mat-tab>
   </mat-tab-group>
 </div>

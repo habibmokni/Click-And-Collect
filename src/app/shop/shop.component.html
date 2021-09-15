@@ -1,4 +1,4 @@
-<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-spinner *ngIf="isLoading" style="top: 30%; margin: auto;" color="warn"></mat-spinner>
 <mat-card fxLayout class="shop" fxLayoutGap="10px" *ngIf="!isLoading">
   <div class="left-grid" fxHide.lt-md>
     <mat-card class="cards">
@@ -16,10 +16,10 @@
         <mat-card-title>Top Rated Products</mat-card-title>
       </mat-card-header>
       <hr>
-      <mat-card-content fxLayout *ngFor="let product of productList">
+      <mat-card-content fxLayout *ngFor="let product of productList; let i = index;">
         <img src="{{product.productImage}}" alt="img" style="height: 50px;">
         <div fxLayout="column" class="top-rated">
-          <a href="#"><h3>{{product.name}}</h3></a>
+          <a [routerLink]="['/product', i]"><h3>{{product.name}}</h3></a>
           <mat-card-subtitle *ngIf="true">${{product.price}}</mat-card-subtitle>
           <mat-card-subtitle *ngIf="false">Rs. product.productPrice/- <span><del class="discounted">Was Rs. product.productDiscount/-</del></span></mat-card-subtitle>
         </div>
@@ -32,12 +32,18 @@
       <hr>
       <mat-card-content>
         <mat-chip-list aria-label="Fish selection">
-          <mat-chip color="primary" selected>Nike</mat-chip>
-          <mat-chip color="primary" selected>Nike Shoes</mat-chip>
-          <mat-chip color="primary" selected>Power</mat-chip>
-          <mat-chip color="primary" selected>Power Shoes</mat-chip>
-          <mat-chip color="primary" selected>Bata Shoes</mat-chip>
-          <mat-chip color="primary" selected>Service Shoes</mat-chip>
+          <mat-chip style="background: linear-gradient(
+            180deg, #D53D5E 0%, #8B283D 100%);" selected>Nike</mat-chip>
+          <mat-chip style="background: linear-gradient(
+            180deg, #D53D5E 0%, #8B283D 100%);" selected>Nike Shoes</mat-chip>
+          <mat-chip style="background: linear-gradient(
+            180deg, #D53D5E 0%, #8B283D 100%);" selected>Power</mat-chip>
+          <mat-chip style="background: linear-gradient(
+            180deg, #D53D5E 0%, #8B283D 100%);" selected>Power Shoes</mat-chip>
+          <mat-chip style="background: linear-gradient(
+            180deg, #D53D5E 0%, #8B283D 100%);" selected>Bata Shoes</mat-chip>
+          <mat-chip style="background: linear-gradient(
+            180deg, #D53D5E 0%, #8B283D 100%);" selected>Service Shoes</mat-chip>
         </mat-chip-list>
       </mat-card-content>
     </mat-card>
@@ -79,23 +85,23 @@
       <div fxLayout class="forth-div">
         <div fxLayout *ngIf="cardMode" class="products-add" fxLayoutGap.gt-xs="25px">
           <mat-card-content *ngFor="let product of productList; let i= index;">
-            <mat-card fxLayout="column" style="height: 310px;">
-              <img class="product-image" mat-card-image src="{{product.productImage}}" alt="img">
+            <mat-card fxLayout="column" [ngStyle.gt-xs]="{height: '330px'}">
+              <a [routerLink]="['/product', i]"><img class="product-image" mat-card-image src="{{product.productImage}}" alt="img"></a>
               <mat-card-content>
                 <p>{{product.category}}</p>
                 <h1>{{product.name}}</h1>
                 <div fxLayout.gt-sm fxLayout.lt-md="column">
                   <h2 *ngIf="true">
-                    $ {{product.price}}
+                    ${{product.price}}
                   </h2>
                   <h2 *ngIf="false">
-                    $ {{product.price}} <span><del class="discounted">Was Rs. product.productDiscount}}/-</del></span>
+                    ${{product.price}} <span><del class="discounted">Was Rs. product.productDiscount}}/-</del></span>
                   </h2>
                   <span class="spacer"></span>
                   <div fxLayout.lt-md fxLayoutAlign.sm="flex-end flex-end">
                     <a type="button" class="product-icon" (click)="addToCart(product)"><fa-icon [icon]="faShoppingCart"></fa-icon></a>
                     <a type="button" class="product-icon" ><fa-icon [icon]="faHeart"></fa-icon></a>
-                    <a type="button" class="product-icon"  *ngIf="true"><fa-icon [icon]="faTrash"></fa-icon></a>
+                    <a type="button" class="product-icon"  *ngIf="false"><fa-icon [icon]="faTrash"></fa-icon></a>
                     <a
                       class="product-icon"
                       placement="top"
@@ -124,20 +130,8 @@
               <mat-card-title class="product-title">
                 {{product.name}}
               </mat-card-title>
-              <mat-card-subtitle class="product-features">
-                <fa-icon [icon]="faLeaf" [style.color]="'green'"></fa-icon>Organic
-              </mat-card-subtitle>
-              <mat-card-subtitle class="product-features">
-                <fa-icon [icon]="faBox" [style.color]="'brown'"></fa-icon>
-                Export Quality
-              </mat-card-subtitle>
-              <mat-card-subtitle class="product-features">
-                <fa-icon [icon]="faSeedling" [style.color]="'green'"></fa-icon>
-                Fresh Oranges
-              </mat-card-subtitle>
-              <mat-card-subtitle class="product-features">
-                <fa-icon [icon]="faMoney" [style.color]="'green'"></fa-icon>
-                Cash On Delivery
+              <mat-card-subtitle>
+                {{product.subCategory}}
               </mat-card-subtitle>
             </mat-card-header>
             <div fxLayout>

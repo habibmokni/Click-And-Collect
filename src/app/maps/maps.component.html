@@ -1,0 +1,26 @@
+<div style="text-align: center;">
+  <google-map #maps
+  *ngIf="apiLoaded | async"
+  [options]="options"
+  [height]="mapHeight"
+  [width]="mapWidth"
+  >
+    <map-marker [position]="currentLocation" [icon]="logo"></map-marker>
+    <map-marker
+    #marker="mapMarker"
+    *ngFor="let position of markerPositions; let i=index"
+    [position]="position"
+    (mapClick)="openInfoWindow(marker,this.storeList[i],$event)">
+  </map-marker>
+  <map-info-window>
+    <h2>{{this.currentStore.name}}</h2>
+    <p>{{this.currentStore.address}}</p>
+    <button mat-raised-button color="primary" (click)="onSelectStore()" >Choose</button>
+    <button mat-raised-button color="accent" (click)="onGetDirections(this.currentStore.location)" >Directions</button>
+  </map-info-window>
+    <map-marker [position]="markerPosition"></map-marker>
+    <map-directions-renderer *ngIf="(directionsResults$ | async) as directionsResults"
+                           [directions]="directionsResults"></map-directions-renderer>
+  </google-map>
+  <button mat-raised-button class="button" (click)="onGetCurrentLocation()">Stores Nearby</button>
+</div>

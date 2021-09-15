@@ -4,6 +4,11 @@ import { StepperOrientation } from '@angular/material/stepper';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { FlexOrderDirective } from '@angular/flex-layout';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Order } from '../shared/models/order.model';
+import { ProductService } from '../shared/services/product.service';
+import { StoreService } from '../shared/services/store.service';
 
 @Component({
   selector: 'app-checkout',
@@ -11,6 +16,8 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
+
+  order!: Order;
 
   shippingMethod = new FormGroup({
     type: new FormControl('Self pickup'),
@@ -44,7 +51,13 @@ export class CheckoutComponent implements OnInit {
 
 
 
-  constructor(private _formBuilder: FormBuilder, breakpointObserver: BreakpointObserver) {
+  constructor(
+    private _formBuilder: FormBuilder,
+    breakpointObserver: BreakpointObserver,
+
+    private productService: ProductService,
+    private storeService: StoreService
+    ) {
     this.stepperOrientation = breakpointObserver.observe('(min-width: 800px)')
       .pipe(map(({matches}) => matches ? 'horizontal' : 'vertical'));
   }
@@ -52,9 +65,28 @@ export class CheckoutComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.firstFormGroup.value);
-    console.log(this.secondFormGroup.value);
-    console.log(this.thirdFormGroup.value);
+    this.order = {
+      orderId: 2020,
+      billingDetails: {
+        name: this.secondFormGroup.get('billing.name')?.value,
+        email: this.secondFormGroup.get('billing.email')?.value,
+        phoneNo: this.secondFormGroup.get('billing.phoneNo')?.value,
+        address1: this.secondFormGroup.get('billing.address1')?.value,
+        address2: this.secondFormGroup.get('billing.address2')?.value
+      },
+      productsOrdered: this.productService.getLocalCartProducts(),
+      storeLocation: {
+        id : 2020,
+        address: this.storeService.selectedStore.address
+      },
+      pickupDate: {
+        start: this.firstFormGroup.get('shippingMethod.start')?.value,
+        end: this.firstFormGroup.get('shippingMethod.end')?.value
+      },
+      pickupTime: this.firstFormGroup.get('shippingMethod.time')?.value,
+      pickupType: this.firstFormGroup.get('shippingMethod.type')?.value,
+      paymentOption: this.thirdFormGroup.get('paymentMethod.paymentOption')?.value
+    }
+    console.log(this.order);
   }
-
 }

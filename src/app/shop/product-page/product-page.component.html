@@ -2,7 +2,7 @@
   <div class="product_image">
     <div class="product_image_background" fxLayout="column">
       <div class="back_to_search" fxLayout fxHide.gt-xs>
-        <a mat-button><mat-icon>arrow_back_ios</mat-icon>Back to search</a>
+        <a mat-button routerLink="/" style="text-decoration: none; color: black;"><mat-icon>arrow_back_ios</mat-icon>Back to search</a>
         <span class="filler"></span>
         <button mat-icon-button class="favourite"><mat-icon [ngStyle]="{fontSize: '20px'}">favorite</mat-icon></button>
       </div>
@@ -28,8 +28,8 @@
       </div>
     </div>
     <div class="product_availability" fxLayout="column" fxHide.xs fxLayoutAlign="center center">
-      <h4>Check Availability for pickup</h4>
-      <button mat-button (click)="openDialog()">Open dialog</button>
+      <h4>Check Availability of selected product in stores nearby you</h4>
+      <button mat-button (click)="openDialog()" style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); border-radius: 17px; color: white;">Check Availability</button>
     </div>
   </div>
 
@@ -80,13 +80,9 @@
         <button mat-icon-button (click)="onAddItem()"><mat-icon [ngStyle]="{fontSize: '16px'}">add</mat-icon></button>
       </div>
     </div>
-    <div class="product_availability" fxHide.gt-xs>
-      <h4>Check Availability for pickup</h4>
-      <form action="">
-        <mat-form-field class="product_availability_zipcode">
-          <input matInput type="text" placeholder="Enter zip code">
-        </mat-form-field>
-      </form>
+    <div class="product_availability" fxLayout="column" fxHide.gt-xs fxLayoutAlign="center center">
+      <h4>Check Availability of selected product in stores nearby you</h4>
+      <button mat-button (click)="openDialog()" style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); border-radius: 17px; color: white;">Check Availability</button>
     </div>
     <div class="product_total_amount">
       <div fxLayout>
@@ -107,7 +103,7 @@
       </div>
     </div>
     <div>
-      <button class="add_to_cart" mat-raised-button><h3 [ngStyle]="{marginBottom: '0px'}">Add to Cart</h3></button>
+      <button class="add_to_cart" mat-raised-button (click)="addToCart()"><h3 [ngStyle]="{marginBottom: '0px'}">Add to Cart</h3></button>
     </div>
   </div>
 </div>
