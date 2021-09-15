@@ -8,12 +8,12 @@ import { map } from "rxjs/operators";
 @Injectable()
 export class MapsService{
   storeDirectionsResults$!: Observable<google.maps.DirectionsResult|undefined>;
-  currentUserLocation!: Location;
+  currentLocation: google.maps.LatLngLiteral = { lat: 51.44157584725519, lng: 7.565725496333208};
+  closestMarker!: google.maps.LatLngLiteral;
 
   markerPositions: google.maps.LatLngLiteral[] = [
-    { lat: 32.12213446045631, lng: 72.69902402104954},
-    { lat: 32.12051706178957, lng: 72.69989305671359},
-    { lat: 32.11959022491546, lng: 72.69905620755563}
+    { lat: 51.493894712524686, lng: 7.551481855853338},
+    { lat: 51.48835590906478, lng: 7.499527655853162}
   ];
 
   //currentStoreLocation get it from store service
@@ -27,7 +27,7 @@ export class MapsService{
   getDirections(location: Location){
     const request: google.maps.DirectionsRequest = {
       destination: {lat: location.lat, lng: location.lng},
-      origin: {lat: 32.121404, lng: 72.6970843},
+      origin: {lat: this.currentLocation.lat, lng: this.currentLocation.lng},
       travelMode: google.maps.TravelMode.DRIVING
     };
     this.storeDirectionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => response.result));
@@ -41,7 +41,7 @@ export class MapsService{
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-          this.currentUserLocation = pos;
+          this.currentLocation = pos;
           this.find_closest_marker(pos.lat, pos.lng);
         }
       )};
@@ -67,11 +67,33 @@ export class MapsService{
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         var d = R * c;
         distances[i] = d;
+
         if ( closest == -1 || d < distances[closest] ) {
             closest = i;
-        }
-    }
 
+        }
+
+    }
+    this.distance(lat, lng, this.markerPositions[closest].lat, this.markerPositions[closest].lng);
     console.log(this.markerPositions[closest]);
+    this.closestMarker= this.markerPositions[closest];
+}
+
+distance(lat1:number, lng1:number, lat2:number, lng2:number) {
+  var radlat1 = Math.PI * lat1 / 180;
+  var radlat2 = Math.PI * lat2 / 180;
+  var radlon1 = Math.PI * lng1 / 180;
+  var radlon2 = Math.PI * lng2 / 180;
+  var theta = lng1 - lng2;
+  var radtheta = Math.PI * theta / 180;
+  var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+  dist = Math.acos(dist);
+  dist = dist * 180 / Math.PI;
+  dist = dist * 60 * 1.1515;
+
+  //Get in in kilometers
+  dist = dist * 1.609344;
+  console.log("Distance in km " + dist);
+  return dist;
 }
 }
