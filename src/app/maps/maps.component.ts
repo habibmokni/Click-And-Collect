@@ -66,9 +66,9 @@ export class MapsComponent implements OnInit {
     this.mapsService.getCurrentLocation()
     setTimeout(()=>{
       this.options = {
-        center: this.mapsService.currentUserLocation
+        center: this.mapsService.currentLocation
       };
-      this.markerPosition = this.mapsService.currentUserLocation;
+      this.markerPosition = this.mapsService.currentLocation;
     },500)
 
   }

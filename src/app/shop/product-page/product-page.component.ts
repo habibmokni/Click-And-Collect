@@ -97,6 +97,7 @@ export class ProductPageComponent implements OnInit {
   }
 
   addToCart(){
+    this.product.productImage = this.productImage;
     this.product.color = this.colorSelected;
     this.product.noOfItems = this.noOfItems;
     console.log(this.product);

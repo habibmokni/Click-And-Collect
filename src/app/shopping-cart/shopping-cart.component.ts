@@ -32,7 +32,8 @@ export class ShoppingCartComponent implements OnInit {
   ngOnInit(): void {
     this.getCartProduct();
     for(let product of this.cartProducts){
-      this.grandtotal += (product.price);
+      console.log(product.noOfItems);
+      this.grandtotal += (product.price*product.noOfItems!);
     }
   }
   onAddItem(index: number){

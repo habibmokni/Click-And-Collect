@@ -5,6 +5,13 @@
       <mat-form-field class="product_availability_zipcode" style="width: 230px; margin-top: 10px;">
         <input id="search" matInput type="text" placeholder="Enter zip code or address">
       </mat-form-field>
+      <mat-card *ngIf="closestStore">
+        <mat-card-title>Closest Store</mat-card-title>
+        <mat-card-content>
+          <h2>{{closestStore.name}}</h2>
+          <h4>Address: {{closestStore.address}}</h4>
+        </mat-card-content>
+      </mat-card>
     </mat-tab>
     <mat-tab label="Map" class="maps">
       <app-maps [mapHeight]="mapHeight" [mapWidth]="mapWidth"></app-maps>

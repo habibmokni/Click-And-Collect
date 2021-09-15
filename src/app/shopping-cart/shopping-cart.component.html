@@ -15,11 +15,12 @@
             <img class="item_image" src="{{product.productImage}}" alt="image">
           </div>
           <div fxLayout="column" class="item_des">
-            <h2 class="item_name">{{product.name}}</h2>
+            <h2 class="item_name" [ngStyle.xs]="{fontSize: '16px'}">{{product.name}}</h2>
             <h4 class="item_price">${{product.price}}</h4>
+            <h4 style="color: red;" [ngStyle.xs]="{fontSize: '12px'}">Items in stock: {{product.inStock}}</h4>
           </div>
           <div fxLayout="row" fxLayoutAlign="end end">
-            <h4 style="color: red;" fxHide.xs>Items in stock: {{product.inStock}}</h4>
+
             <button mat-icon-button style="padding-top: 8px;" (click)="removeCartProduct(product)"><mat-icon>delete_forever</mat-icon></button>
             <button mat-icon-button class="items_list_button" (click)="onRemoveItem(i)"><mat-icon [ngStyle]="{fontSize: '16px'}">remove</mat-icon></button>
             <h2 [ngStyle]="{margin: '0px 3px'}">{{product.noOfItems}}</h2>
