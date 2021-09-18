@@ -71,6 +71,14 @@ hr{
 .filler {
   flex: 1 auto;
 }
+.no-product{
+  text-align: center;
+  margin: 15% 30%;
+}
+.no-product button{
+  background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);
+  color: white;
+}
 
 @media (max-width: 599px){
   .shopping_cart{
@@ -151,6 +159,9 @@ hr{
 
   hr{
     width: 60vw;
+  }
+  .no-product{
+    margin: 20% 15px;
   }
 
 }

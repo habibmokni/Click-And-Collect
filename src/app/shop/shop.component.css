@@ -1,5 +1,6 @@
 .shop {
   margin: 25px 10px;
+  padding: 16px 0px;
   height: auto;
 }
 .left-grid {
@@ -26,7 +27,7 @@
 
 .third-div {
   width: 100%;
-  padding: 5px 25px;
+  padding: 5px 0px;
   vertical-align: middle;
 }
 .forth-div {
@@ -58,6 +59,7 @@ img {
 .product-card {
   width: 100%;
   height: auto;
+  margin-bottom: 10px;
 }
 .product-image-list {
   height: auto;
@@ -76,7 +78,6 @@ img {
 
 .product-title {
   padding-top: 25px;
-  font-size: 30px;
   line-height: 40px;
   color: black;
 }

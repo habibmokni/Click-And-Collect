@@ -1,9 +1,8 @@
-import { Component, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
 import { Product } from '../shared/models/product.model';
-import { Store } from '../shared/models/store.model';
 import { ProductService } from '../shared/services/product.service';
-import { StoreService } from '../shared/services/store.service';
+
 
 @Component({
   selector: 'app-shopping-cart',
@@ -14,7 +13,7 @@ export class ShoppingCartComponent implements OnInit {
 
   // Not Found Message
   messageTitle = "No Products Found in Cart";
-  messageDescription = "Please, Add Products to Cart";
+  messageDescription = "Please add Products to Cart";
 
   cartProducts!: Product[];
 
@@ -25,7 +24,7 @@ export class ShoppingCartComponent implements OnInit {
   noOfItems: number[] = [];
   grandtotal = 0;
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private router: Router) {
 
    }
 
@@ -59,17 +58,9 @@ export class ShoppingCartComponent implements OnInit {
   getCartProduct() {
     this.cartProducts = this.productService.getLocalCartProducts();
   }
-
-  ngOnChanges(changes: SimpleChanges) {
-    const dataChanges: SimpleChange = changes.products;
-
-    const products: Product[] = dataChanges.currentValue;
-    this.totalValue = 0;
-    products.forEach((product) => {
-      this.totalValue += product.price;
-    });
-    console.log(this.totalValue);
+  onSubmit(){
+    this.productService.orderPrice = this.totalValue;
+    this.router.navigate(["/checkout"]);
   }
-
 
 }

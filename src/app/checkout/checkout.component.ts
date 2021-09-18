@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { StepperOrientation } from '@angular/material/stepper';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FlexOrderDirective } from '@angular/flex-layout';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Order } from '../shared/models/order.model';
 import { ProductService } from '../shared/services/product.service';
 import { StoreService } from '../shared/services/store.service';
+import { Product } from '../shared/models/product.model';
 
 @Component({
   selector: 'app-checkout',
@@ -49,7 +48,8 @@ export class CheckoutComponent implements OnInit {
   });
   stepperOrientation: Observable<StepperOrientation>;
 
-
+  cartProducts: Product[]= [];
+  orderPrice: number = 0;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -62,6 +62,8 @@ export class CheckoutComponent implements OnInit {
       .pipe(map(({matches}) => matches ? 'horizontal' : 'vertical'));
   }
   ngOnInit(): void {
+    this.cartProducts = this.productService.getLocalCartProducts()
+    this.orderPrice = this.productService.orderPrice;
   }
 
   onSubmit(){

@@ -8,6 +8,29 @@ span.mat-button-toggle-label-content{
   padding: 0px;
 }
 
+.snackbar-success{
+  background-color: #00c851;
+  color: white;
+}
+.snackbar-info{
+  background-color: #33b5e5;
+  color: white;
+}
+.snackbar-warning{
+  background-color: #fb3;
+  color: white;
+}
+.snackbar-error{
+  background-color: #ff3547;
+  color: white;
+}
+.snackbar-wait{
+  background-color: #33b5e5;
+  color: white;
+}
+.snackbar button{
+  color: white;
+}
 h1 {
   font-size: 32px;
   line-height: 50%;

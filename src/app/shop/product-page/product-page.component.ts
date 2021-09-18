@@ -43,7 +43,11 @@ export class ProductPageComponent implements OnInit {
   apiKey = 'AIzaSyCKj-l5U2bLY3wEx-9DN1owQhs3a9iJ-Uw';
   preBtn!: Element;
   fee: number = 0;
-  constructor(private route: ActivatedRoute,public dialog: MatDialog, private productService: ProductService) {
+  constructor(
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
+    private productService: ProductService
+    ) {
     this.productImage = this.product.imageList[0];
     this.colorSelected =  this.product.availableColors[0];
   }
@@ -52,20 +56,8 @@ export class ProductPageComponent implements OnInit {
     this.sub = this.route.params.subscribe((params) => {
       const id = params.id; // (+) converts string 'id' to a number
       this.getProductDetail(id);
-      this.product = this.productService.product;
+      this.product= this.productService.product;
     });
-  }
-
-  onAddItem(){
-    this.noOfItems++;
-    this.grandTotal = (this.product.price * this.noOfItems) + this.fee;
-  }
-
-  onRemoveItem(){
-    if(this.noOfItems > 0){
-      this.noOfItems--;
-      this.grandTotal = (this.product.price * this.noOfItems) + this.fee;
-    }
   }
 
   onSizeSelect(size: number, index:number){
@@ -79,7 +71,7 @@ export class ProductPageComponent implements OnInit {
   }
 
   getProductDetail(id: number) {
-    const x = this.productService.getProductById(id);
+    this.productService.getProductById(id);
   }
 
 

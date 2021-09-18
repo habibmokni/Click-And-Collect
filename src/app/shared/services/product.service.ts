@@ -1,21 +1,27 @@
 import { Injectable } from "@angular/core";
-import { AngularFirestore, AngularFirestoreDocument } from "@angular/fire/compat/firestore";
+import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { Product } from "../models/product.model";
-import { ToastrService } from "./toastr.service";
 import { StoreService } from "./store.service";
+import { SnackbarService } from "./snackbar.service";
+import { Observable } from "rxjs";
 @Injectable()
 export class ProductService{
 
+  productList! : Observable<Product[]>;
 
   product!: Product;
 
-  productList: Product[] = [{name: 'Nike Pink Shoe', color: '#590F34', subCategory: ['Unisex','blue shoes'], price: 799, noOfItems: 1, size: 41, productImage: '../../assets/images/mehron.png', imageList: [], availableColors: [], availableSizes: []},
-                                    {name: 'Nike Blue Shoe', color: '#cde9e6', subCategory: ['Unisex','blue shoes'], price: 799, noOfItems: 1, size: 41, productImage: '../../assets/images/blue.png',imageList: [], availableColors: [], availableSizes: []}]
+  orderPrice: number = 0;
+
+  constructor(private snackBarService: SnackbarService, private storeService: StoreService, private db: AngularFirestore){}
 
 
-  constructor(private toastrService: ToastrService, private storeService: StoreService){}
-
-
+  addProductToDatabase(product: Product){
+    this.db.collection('products').add(product);
+  }
+  fetchProduct(){
+    this.productList = this.db.collection<Product>('products').valueChanges();
+  }
   deleteProduct(key: string){
     //this.productList.remove(key);
   }
@@ -24,7 +30,7 @@ export class ProductService{
       const a: Product[] = JSON.parse(localStorage.getItem("avct_item")!) || [];
       a.push(data);
 
-      //this.toastrService.info("Adding Product to Cart","Product Adding to the cart");
+      this.snackBarService.info("Adding Product to Cart");
       setTimeout(() => {
         localStorage.setItem("avct_item", JSON.stringify(a));
       }, 500);
@@ -33,7 +39,7 @@ export class ProductService{
     // Removing cart from local
     removeLocalCartProduct(product: Product) {
       const products: Product[] = JSON.parse(localStorage.getItem("avct_item")!);
-
+      this.snackBarService.warning("Removing product from cart");
       for (let i = 0; i < products.length; i++) {
         if (products[i].id === product.id) {
           products.splice(i, 1);
@@ -66,8 +72,8 @@ export class ProductService{
 
     getProductById(key: number) {
       this.product = this.storeService.store[0].products![key];
-      console.log(this.product);
-      return this.product;
+      //this.product = this.db.collection<Product>('products', ref => ref.where('id', '==', key)).valueChanges();
+
     }
 
 }

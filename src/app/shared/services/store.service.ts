@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/comp
 import { Store } from "../models/store.model";
 import { map } from "rxjs/operators"
 import { Observable } from "rxjs";
+import { Product } from "../models/product.model";
 
 
 @Injectable()
@@ -24,51 +25,6 @@ export class StoreService{
   private storeCollection!: AngularFirestoreCollection<Store>;
   store!: Store[];
 
-
-  storeList: Store[] = [
-    {
-    id: "2020",
-    name: 'Store 1',
-    address: 'Phase 1, Sargodha',
-    location: {
-      lat: 32.12213446045631,
-      lng: 72.69902402104954
-    },
-    openingTime: {
-      open: "10am",
-      close: "10pm"
-    },
-    isDefaultStore: false
-  },
-  {
-    id: '2021',
-    name: 'Store 2',
-    address: 'Phase 2, Sargodha',
-    location: {
-      lat: 32.12051706178957,
-      lng: 72.69989305671359
-    },
-    openingTime: {
-      open: "10am",
-      close: "10pm"
-    },
-    isDefaultStore: false
-  },
-  {
-    id: '2022',
-    name: 'Store 3',
-    address: 'Phase 3, Sargodha',
-    location: {
-      lat: 32.11959022491546,
-      lng: 72.69905620755563
-    },
-    openingTime: {
-      open: "10am",
-      close: "10pm"
-    },
-    isDefaultStore: false
-  }
-]
 
   constructor(private db: AngularFirestore){
     this.storeCollection = db.collection<Store>('storeList');
@@ -176,5 +132,6 @@ export class StoreService{
   addStoreLocations(location: {lat: string, lng: string}){
    this.db.collection('storeLocations').add(location);
   }
+
 
 }

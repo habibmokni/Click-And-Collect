@@ -13,7 +13,7 @@
         aria-labelledby="example-radio-group-label"
         class="example-radio-group"
       >
-        <mat-radio-button fxLayout class="example-radio-button" *ngFor="let payment of paymentPartner" [value]="payment">
+        <mat-radio-button fxLayout class="example-radio-button" *ngFor="let payment of paymentPartner" [value]="payment.name">
           <img src="{{payment.logo}}" alt="image" [ngStyle]="{width: '40px'}">{{payment.name}}
         </mat-radio-button>
       </mat-radio-group>

@@ -21,15 +21,11 @@
             <mat-radio-button
             *ngFor="let color of product.availableColors; let i=index"
             [value]=(i)
-            checked
+            [checked]="i===0"
             ></mat-radio-button>
           </mat-radio-group>
         </div>
       </div>
-    </div>
-    <div class="product_availability" fxLayout="column" fxHide.xs fxLayoutAlign="center center">
-      <h4>Check Availability of selected product in stores nearby you</h4>
-      <button mat-button (click)="openDialog()" style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); border-radius: 17px; color: white;">Check Availability</button>
     </div>
   </div>
 
@@ -61,7 +57,11 @@
       </div>
     </div>
     <div class="product_size">
+      <div fxLayout="row">
       <h2>Available Sizes</h2>
+      <span class="filler"></span>
+      <h4 style="color: red;" [ngStyle]="{float: 'right', lineHeight: '29px'}">Items in stock: {{product.inStock}}</h4>
+      </div>
       <div class="product_size_list">
         <button
         *ngFor="let size of product.availableSizes; let i=index"
@@ -71,36 +71,9 @@
         >{{size}}</button>
       </div>
     </div>
-    <div class="product_quantity" fxLayout="row">
-      <h2>Items</h2>
-      <span class="filler"></span>
-      <div fxLayout="row">
-        <button mat-icon-button (click)="onRemoveItem()"><mat-icon [ngStyle]="{fontSize: '16px'}">remove</mat-icon></button>
-        <h2>{{noOfItems}}</h2>
-        <button mat-icon-button (click)="onAddItem()"><mat-icon [ngStyle]="{fontSize: '16px'}">add</mat-icon></button>
-      </div>
-    </div>
-    <div class="product_availability" fxLayout="column" fxHide.gt-xs fxLayoutAlign="center center">
-      <h4>Check Availability of selected product in stores nearby you</h4>
+    <div class="product_availability" fxLayout="column" fxLayoutAlign="center center">
+      <h4>Check product availability in stores nearby</h4>
       <button mat-button (click)="openDialog()" style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); border-radius: 17px; color: white;">Check Availability</button>
-    </div>
-    <div class="product_total_amount">
-      <div fxLayout>
-        <h2>Total:</h2>
-        <span class="filler"></span>
-        <h2>${{product.price*noOfItems}}.00</h2>
-      </div>
-      <div fxLayout>
-        <h2>Fee:</h2>
-        <span class="filler"></span>
-        <h2>${{fee}}.00</h2>
-      </div>
-      <hr>
-      <div class="grand_total" fxLayout>
-        <h2>Grand Total:</h2>
-        <span class="filler"></span>
-        <h2>${{grandTotal}}.00</h2>
-      </div>
     </div>
     <div>
       <button class="add_to_cart" mat-raised-button (click)="addToCart()"><h3 [ngStyle]="{marginBottom: '0px'}">Add to Cart</h3></button>

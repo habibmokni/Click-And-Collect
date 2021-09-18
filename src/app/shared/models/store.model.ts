@@ -8,7 +8,7 @@ export interface Store{
   reviews?: string;
   description?: string;
   location: Location;
-  products?: Product[];
+  products: Product[];
   openingTime: {
     open: string;
     close: string;

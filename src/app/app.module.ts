@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { AngularFireModule } from '@angular/fire/compat';
@@ -27,6 +27,10 @@ import { ProductService } from './shared/services/product.service';
 import { AvailabilityComponent } from './shop/product-page/availability/availability.component';
 import { ShopComponent } from './shop/shop.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SnackbarService } from './shared/services/snackbar.service';
+import { ImageSliderComponent } from './shop/image-slider/image-slider.component';
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+
 
 @NgModule({
   declarations: [
@@ -40,7 +44,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     BillingDetailsComponent,
     PaymentMethodsComponent,
     AvailabilityComponent,
-    ShopComponent
+    ShopComponent,
+    ImageSliderComponent
   ],
   imports: [
     BrowserModule,
@@ -52,13 +57,17 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxMatTimepickerModule,
     FontAwesomeModule,
     FlexLayoutModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule
   ],
-  providers: [StoreService, MapsService, ProductService],
-  bootstrap: [AppComponent]
+  providers: [StoreService, MapsService, ProductService, SnackbarService],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
