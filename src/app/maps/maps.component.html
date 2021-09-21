@@ -8,9 +8,9 @@
     <map-marker [position]="currentLocation" [icon]="logo"></map-marker>
     <map-marker
     #marker="mapMarker"
-    *ngFor="let position of markerPositions; let i=index"
-    [position]="position"
-    (mapClick)="openInfoWindow(marker,this.storeList[i],$event)">
+    *ngFor="let store of storeList| async; let i=index;"
+    [position]="storeLocations[i]"
+    (mapClick)="openInfoWindow(marker,store,$event)">
   </map-marker>
   <map-info-window>
     <h2>{{this.currentStore.name}}</h2>
@@ -18,7 +18,7 @@
     <button mat-raised-button color="primary" (click)="onSelectStore()" >Choose</button>
     <button mat-raised-button color="accent" (click)="onGetDirections(this.currentStore.location)" >Directions</button>
   </map-info-window>
-    <map-marker [position]="markerPosition"></map-marker>
+    <map-marker [position]="currentUserLocation"></map-marker>
     <map-directions-renderer *ngIf="(directionsResults$ | async) as directionsResults"
                            [directions]="directionsResults"></map-directions-renderer>
   </google-map>

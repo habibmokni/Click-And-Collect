@@ -149,6 +149,7 @@
 }
 .product_availability{
   padding: 15px 5px;
+  margin-bottom: 60px;
 }
 .product_availability h4 {
   font-family: Nunito;
@@ -176,6 +177,8 @@ hr {
   height: 48px;
   font-weight: 700;
   line-height: 22px;
+  position: fixed;
+  bottom: 1%;
 }
 .mat-radio-button ~ .mat-radio-button {
   margin-left: 0px;

@@ -8,6 +8,11 @@ export interface Product{
   noOfItems?: number;
   isAvailable?: boolean;
   inStock?: number; // rename to stock
+  variants:{
+    color: string;
+    sizes: number[],
+    inStock: number[]
+  }[];
   size: number;
   availableSizes: number[];
   color: string; //rename to defaultColor

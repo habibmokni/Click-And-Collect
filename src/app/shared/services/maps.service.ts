@@ -10,11 +10,9 @@ export class MapsService{
   storeDirectionsResults$!: Observable<google.maps.DirectionsResult|undefined>;
   currentLocation: google.maps.LatLngLiteral = { lat: 51.44157584725519, lng: 7.565725496333208};
   closestMarker!: google.maps.LatLngLiteral;
+  distanceInKm: number[] = [];
 
-  markerPositions: google.maps.LatLngLiteral[] = [
-    { lat: 51.493894712524686, lng: 7.551481855853338},
-    { lat: 51.48835590906478, lng: 7.499527655853162}
-  ];
+  markerPositions: google.maps.LatLngLiteral[] = [];
 
   //currentStoreLocation get it from store service
   constructor(private storeService: StoreService, private mapDirectionsService: MapDirectionsService){
@@ -67,33 +65,15 @@ export class MapsService{
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         var d = R * c;
         distances[i] = d;
-
         if ( closest == -1 || d < distances[closest] ) {
             closest = i;
-
+            console.log("if statement ran only once");
         }
 
     }
-    this.distance(lat, lng, this.markerPositions[closest].lat, this.markerPositions[closest].lng);
+    this.distanceInKm = distances;
     console.log(this.markerPositions[closest]);
     this.closestMarker= this.markerPositions[closest];
-}
+  }
 
-distance(lat1:number, lng1:number, lat2:number, lng2:number) {
-  var radlat1 = Math.PI * lat1 / 180;
-  var radlat2 = Math.PI * lat2 / 180;
-  var radlon1 = Math.PI * lng1 / 180;
-  var radlon2 = Math.PI * lng2 / 180;
-  var theta = lng1 - lng2;
-  var radtheta = Math.PI * theta / 180;
-  var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-  dist = Math.acos(dist);
-  dist = dist * 180 / Math.PI;
-  dist = dist * 60 * 1.1515;
-
-  //Get in in kilometers
-  dist = dist * 1.609344;
-  console.log("Distance in km " + dist);
-  return dist;
-}
 }

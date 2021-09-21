@@ -13,17 +13,11 @@ export class StoreService{
   currentStore: Store;
 
   selectedStore!: {address: string, location:{ lat: number, lng:number}};
-  storeLocations: {lat: number, lng: number}[] = [];
-
-  markerPositions: google.maps.LatLngLiteral[] = [
-    { lat: 32.12213446045631, lng: 72.69902402104954},
-    { lat: 32.12051706178957, lng: 72.69989305671359},
-    { lat: 32.11959022491546, lng: 72.69905620755563}
-  ];
+  storeLocations: google.maps.LatLngLiteral[] = [];
 
 
   private storeCollection!: AngularFirestoreCollection<Store>;
-  store!: Store[];
+  store!: Observable<Store[]>;
 
 
   constructor(private db: AngularFirestore){
@@ -32,12 +26,12 @@ export class StoreService{
     this.getStoreLocations();
     this.currentStore =
       {
-        id: "2020",
-        name: 'Store 1',
-        address: 'Phase 1, Sargodha',
+        id: "2023",
+        name: 'Store 3',
+        address: 'Phase 3, Sargodha',
         location: {
-          lat: 32.12213446045631,
-          lng: 72.69902402104954
+          lat: 51.23644756925625,
+          lng: 6.7812126558439125
         },
         products: [
           {
@@ -56,7 +50,27 @@ export class StoreService{
               '../../assets/images/white.png'
             ],
             availableColors: ['#ADDDDA', '#590F34', '#8C949C', '#C9BDAB'],
-            availableSizes: [41, 42, 43, 44, 45]
+            availableSizes: [41, 42, 43, 44, 45],
+            variants: [{
+              color: '#ADDDDA',
+              sizes: [41, 42, 43, 44, 45],
+              inStock: [0,5,10,7,15]
+            },
+            {
+              color: '#590F34',
+              sizes: [41, 42, 43, 44, 45],
+              inStock: [7,2,15,0,25]
+            },
+            {
+              color: '#8C949C',
+              sizes: [41, 42, 43, 44, 45],
+              inStock: [20,10,0,7,15]
+            },
+            {
+              color: '#C9BDAB',
+              sizes: [41, 42, 43, 44, 45],
+              inStock: [10,0,5,2,9]
+            }]
           },
           {
             id: 2244,
@@ -74,7 +88,33 @@ export class StoreService{
               '../../assets/images/white.png'
             ],
             availableColors: ['#ADDDDA', '#590F34', '#8C949C', '#C9BDAB'],
-            availableSizes: [41, 42, 43, 44, 45]
+            availableSizes: [41, 42, 43, 44, 45],
+            variants: [{
+              color: '#ADDDDA',
+                sizes: [41, 42, 43, 44, 45],
+                inStock: [0,5,10,7,15]
+            },
+            {
+              color: '#590F34',
+
+                sizes: [41, 42, 43, 44, 45],
+                inStock: [7,2,15,0,25]
+
+            },
+            {
+              color: '#8C949C',
+
+                sizes: [41, 42, 43, 44, 45],
+                inStock: [20,10,0,7,15]
+
+            },
+            {
+              color: '#C9BDAB',
+
+                sizes: [41, 42, 43, 44, 45],
+                inStock: [10,0,5,2,9]
+
+            }]
           }
         ],
         //add products here after namaz
@@ -84,11 +124,12 @@ export class StoreService{
         },
         isDefaultStore: false
       }
+      //this.updateProducts();
       //this.addStoreToDatabase(this.currentStore);
   }
 
   fetchStore(){
-    this.storeCollection
+    this.store = this.storeCollection
     .snapshotChanges()
     .pipe(map(docArray =>{
       return docArray.map(doc => {
@@ -98,9 +139,9 @@ export class StoreService{
         }
       })
     }))
-    .subscribe((store)=>{
-      this.store = store;
-    })
+    //.subscribe((store)=>{
+    //  this.store = store;
+    //})
   }
   //fetchStore(){
   //  this.store = this.storeCollection.valueChanges()
@@ -110,20 +151,28 @@ export class StoreService{
   }
 
   getStoreLocations(){
-    this.db.collection<{lat: number, lng:number}>('storeLocations')
-    .snapshotChanges()
-    .pipe(map(action => {
-      return action.map(location =>{
-        return {
-          ...location.payload.doc.data()
-        }
-      })
-    }))
-    .subscribe(locations=>{
-      for(let location of locations){
-        this.storeLocations.push(location);
-      }
-    })
+  //  this.db.collection<{lat: number, lng:number}>('storeLocations')
+  //  .snapshotChanges()
+  //  .pipe(map(action => {
+  //    return action.map(location =>{
+  //      return {
+  //        ...location.payload.doc.data()
+  //      }
+  //    })
+  //  }))
+  //  .subscribe(locations=>{
+  //    for(let location of locations){
+  //      this.storeLocations.push(location);
+  //    }
+  //  })
+  //this.storeLocations.push(this.store[0].location);
+  this.store.forEach(stores=>{
+    for(let store of stores){
+      this.storeLocations.push(store.location);
+    }
+    console.log(this.storeLocations);
+  })
+  console.log("store added to store service");
   }
   addStoreToDatabase(store: Store){
     this.db.collection('storeList').add(store);
@@ -132,6 +181,12 @@ export class StoreService{
   addStoreLocations(location: {lat: string, lng: string}){
    this.db.collection('storeLocations').add(location);
   }
+  updateProducts(){
+    this.db.collection('storeList').doc('/Ll1V5hZEImI1FLrctOvn').update(
+      {
+        products: this.currentStore.products
+      }
 
-
+    )
+  }
 }

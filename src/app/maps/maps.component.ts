@@ -22,12 +22,12 @@ export class MapsComponent implements OnInit {
 
   options: google.maps.MapOptions = {
     center: {lat: 51.44157584725519, lng: 7.565725496333208},
-    zoom: 10
+    zoom: 8
   };
 
   currentStore: Store;
   //storeLocations: {lat: number, lng: number}[];
-  storeList: Store[]= [];
+  storeList = new Observable<Store[]>();
 
   currentLocation: google.maps.LatLngLiteral = { lat: 51.44157584725519, lng: 7.565725496333208};
   logo="../../assets/images/logos/location.png";
@@ -37,10 +37,7 @@ export class MapsComponent implements OnInit {
 
   directionsResults$!: Observable<google.maps.DirectionsResult|undefined>;
 
-  markerPositions: google.maps.LatLngLiteral[] = [
-    { lat: 51.493894712524686, lng: 7.551481855853338},
-    { lat: 51.48835590906478, lng: 7.499527655853162}
-  ];
+  storeLocations: google.maps.LatLngLiteral[];
 
   constructor(
     private storeService: StoreService,
@@ -54,13 +51,13 @@ export class MapsComponent implements OnInit {
         );
       this.currentStore = this.storeService.currentStore;
       this.storeList = this.storeService.store;
-      //this.storeLocations = this.storeService.storeLocations;
+      this.storeLocations = this.storeService.storeLocations;
       //console.log(this.storeLocations);
 
     }
   ngOnInit(): void {
   }
-  markerPosition: google.maps.LatLngLiteral = { lat: 31.4914, lng: 74.2385};
+  currentUserLocation: google.maps.LatLngLiteral = { lat: 31.4914, lng: 74.2385};
 
   onGetCurrentLocation(){
     this.mapsService.getCurrentLocation()
@@ -68,7 +65,7 @@ export class MapsComponent implements OnInit {
       this.options = {
         center: this.mapsService.currentLocation
       };
-      this.markerPosition = this.mapsService.currentLocation;
+      this.currentUserLocation = this.mapsService.currentLocation;
     },500)
 
   }

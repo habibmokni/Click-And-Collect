@@ -71,7 +71,15 @@ export class ProductService{
     }
 
     getProductById(key: number) {
-      this.product = this.storeService.store[0].products![key];
+      this.productList.forEach(products=>{
+        for(let product of products){
+          if(product.id === key){
+            this.product= product;
+            console.log("found the product")
+          }
+        }
+      })
+      //this.product = this.storeService.store[0].products![key];
       //this.product = this.db.collection<Product>('products', ref => ref.where('id', '==', key)).valueChanges();
 
     }

@@ -1,5 +1,104 @@
 <mat-spinner *ngIf="isLoading" style="top: 30%; margin: auto;" color="warn"></mat-spinner>
 <mat-card fxLayout class="shop" fxLayoutGap.gt-xs="10px" *ngIf="!isLoading">
+
+  <div class="right-grid" fxLayout="column" fxLayoutGap.gt-xs="10px">
+    <div class="image-grid">
+      <app-image-slider></app-image-slider>
+    </div>
+    <div class="panel-grid">
+      <div fxLayout fxLayoutAlign="flex-start flex-start" class="third-div">
+        <mat-button-toggle-group #group="matButtonToggleGroup">
+          <mat-button-toggle (click)="onCardMode()" aria-label="grid_view">
+            <mat-icon>grid_view</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle (click)="onListMode()" aria-label="List View">
+            <mat-icon>format_align_justify</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+        <span class="spacer"></span>
+        <h3 style="margin: auto;">Showing all {{2 || 0}} results</h3>
+      </div>
+    </div>
+    <div class="product-grid">
+      <div fxLayout class="forth-div">
+        <div fxLayout *ngIf="cardMode" class="products-add" fxLayoutGap.gt-xs="25px">
+          <mat-card-content *ngFor="let product of productList | async; let i= index;">
+            <mat-card fxLayout="column" [ngStyle.gt-xs]="{height: '330px'}">
+              <a [routerLink]="['/product', product.id]"><img class="product-image" mat-card-image src="{{product.productImage}}" alt="img"></a>
+              <mat-card-content>
+                <p>{{product.category}}</p>
+                <h1>{{product.name}}</h1>
+                <div fxLayout.gt-sm fxLayout.lt-md="column">
+                  <h2 *ngIf="true">
+                    ${{product.price}}
+                  </h2>
+                  <h2 *ngIf="false">
+                    ${{product.price}} <span><del class="discounted">Was Rs. product.productDiscount}}/-</del></span>
+                  </h2>
+                  <span class="spacer"></span>
+                  <div fxLayout.lt-md fxLayoutAlign.sm="flex-end flex-end">
+                    <a mat-icon-button class="product-icon" (click)="addToCart(product)"><mat-icon>shopping_cart</mat-icon></a>
+                    <a mat-icon-button class="product-icon" ><mat-icon>favorite</mat-icon></a>
+                    <a
+                      mat-icon-button
+                      class="product-icon"
+                      placement="top"
+                      mdbTooltip="Quick Look"
+                      container="body"
+                      [routerLink]="['/product', product.id]"
+                    >
+                      <mat-icon>visibility</mat-icon>
+                    </a>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+        </mat-card-content>
+
+    </div>
+    <div style="width: 100%;" *ngIf="listMode">
+      <div class="end-div" fxLayout="column">
+        <mat-card class="product-card" fxLayout *ngFor="let product of productList | async; let i=index">
+          <div class="product-image-list">
+            <img mat-card-image src="{{product.productImage}}">
+          </div>
+          <div class="product-details">
+            <mat-card-header>
+              <p [style.color]="'#8B283D'">Shoes</p>
+              <mat-card-title class="product-title">
+                {{product.name}}
+              </mat-card-title>
+              <mat-card-subtitle>
+                {{product.subCategory}}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <div fxLayout>
+              <h2 *ngIf="true" style="padding-left: 17px;">
+                ${{product.price}}
+              </h2>
+              <h2 *ngIf="false" style="padding-left: 17px;">
+                ${{product.price}} <span><del class="discounted">Was ${{product.price}}</del></span>
+              </h2>
+              <span class="spacer"></span>
+              <a mat-icon-button class="product-icon" (click)="addToCart(product)"><mat-icon>shopping_cart</mat-icon></a>
+              <a mat-icon-button class="product-icon" ><mat-icon>favorite</mat-icon></a>
+              <a
+                mat-icon-button
+                class="product-icon"
+                placement="top"
+                container="body"
+                [routerLink]="['/product', product.id]"
+              >
+              <mat-icon>visibility</mat-icon>
+              </a>
+            </div>
+          </div>
+        </mat-card>
+        </div>
+      </div>
+    </div>
+   </div>
+  </div>
   <div class="left-grid" fxHide.lt-md>
     <mat-card class="cards">
       <mat-card-header>
@@ -47,103 +146,5 @@
         </mat-chip-list>
       </mat-card-content>
     </mat-card>
-  </div>
-  <div class="right-grid" fxLayout="column" fxLayoutGap.gt-xs="10px">
-    <div class="image-grid">
-      <app-image-slider></app-image-slider>
-    </div>
-    <div class="panel-grid">
-      <div fxLayout fxLayoutAlign="flex-start flex-start" class="third-div">
-        <mat-button-toggle-group #group="matButtonToggleGroup">
-          <mat-button-toggle (click)="onCardMode()" aria-label="grid_view">
-            <mat-icon>grid_view</mat-icon>
-          </mat-button-toggle>
-          <mat-button-toggle (click)="onListMode()" aria-label="List View">
-            <mat-icon>format_align_justify</mat-icon>
-          </mat-button-toggle>
-        </mat-button-toggle-group>
-        <span class="spacer"></span>
-        <h3 style="margin: auto;">Showing all {{2 || 0}} results</h3>
-      </div>
-    </div>
-    <div class="product-grid">
-      <div fxLayout class="forth-div">
-        <div fxLayout *ngIf="cardMode" class="products-add" fxLayoutGap.gt-xs="25px">
-          <mat-card-content *ngFor="let product of productList | async; let i= index;">
-            <mat-card fxLayout="column" [ngStyle.gt-xs]="{height: '330px'}">
-              <a [routerLink]="['/product', i]"><img class="product-image" mat-card-image src="{{product.productImage}}" alt="img"></a>
-              <mat-card-content>
-                <p>{{product.category}}</p>
-                <h1>{{product.name}}</h1>
-                <div fxLayout.gt-sm fxLayout.lt-md="column">
-                  <h2 *ngIf="true">
-                    ${{product.price}}
-                  </h2>
-                  <h2 *ngIf="false">
-                    ${{product.price}} <span><del class="discounted">Was Rs. product.productDiscount}}/-</del></span>
-                  </h2>
-                  <span class="spacer"></span>
-                  <div fxLayout.lt-md fxLayoutAlign.sm="flex-end flex-end">
-                    <a mat-icon-button class="product-icon" (click)="addToCart(product)"><mat-icon>shopping_cart</mat-icon></a>
-                    <a mat-icon-button class="product-icon" ><mat-icon>favorite</mat-icon></a>
-                    <a
-                      mat-icon-button
-                      class="product-icon"
-                      placement="top"
-                      mdbTooltip="Quick Look"
-                      container="body"
-                      [routerLink]="['/product', i]"
-                    >
-                      <mat-icon>visibility</mat-icon>
-                    </a>
-                  </div>
-                </div>
-              </mat-card-content>
-            </mat-card>
-        </mat-card-content>
-
-    </div>
-    <div style="width: 100%;" *ngIf="listMode">
-      <div class="end-div" fxLayout="column">
-        <mat-card class="product-card" fxLayout *ngFor="let product of productList | async; let i=index">
-          <div class="product-image-list">
-            <img mat-card-image src="{{product.productImage}}">
-          </div>
-          <div class="product-details">
-            <mat-card-header>
-              <p [style.color]="'#8B283D'">Shoes</p>
-              <mat-card-title class="product-title">
-                {{product.name}}
-              </mat-card-title>
-              <mat-card-subtitle>
-                {{product.subCategory}}
-              </mat-card-subtitle>
-            </mat-card-header>
-            <div fxLayout>
-              <h2 *ngIf="true" style="padding-left: 17px;">
-                ${{product.price}}
-              </h2>
-              <h2 *ngIf="false" style="padding-left: 17px;">
-                ${{product.price}} <span><del class="discounted">Was ${{product.price}}</del></span>
-              </h2>
-              <span class="spacer"></span>
-              <a mat-icon-button class="product-icon" (click)="addToCart(product)"><mat-icon>shopping_cart</mat-icon></a>
-              <a mat-icon-button class="product-icon" ><mat-icon>favorite</mat-icon></a>
-              <a
-                mat-icon-button
-                class="product-icon"
-                placement="top"
-                container="body"
-                [routerLink]="['/product', i]"
-              >
-              <mat-icon>visibility</mat-icon>
-              </a>
-            </div>
-          </div>
-        </mat-card>
-        </div>
-      </div>
-    </div>
-   </div>
   </div>
 </mat-card>

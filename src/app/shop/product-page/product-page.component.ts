@@ -18,26 +18,10 @@ export class ProductPageComponent implements OnInit {
 
   sub: any;
 
-  product: Product= {
-    name: 'Nike Pink Shoe',
-    color: '#590F34',
-    subCategory: ['Unisex','blue shoes'],
-    price: 799,
-    inStock: 10,
-    noOfItems: 1,
-    size: 41,
-    imageList: [
-      '../../assets/images/blue.png',
-      '../../assets/images/mehron.png',
-      '../../assets/images/black.png',
-      '../../assets/images/white.png'
-    ],
-    availableColors: ['#ADDDDA', '#590F34', '#8C949C', '#C9BDAB'],
-    availableSizes: [41, 42, 43, 44, 45]
-  };
+  product!: Product;
 
-  productImage: string;
-  colorSelected: string;
+  productImage!: string;
+  colorSelected!: string;
   grandTotal: number = 0;
 
   apiKey = 'AIzaSyCKj-l5U2bLY3wEx-9DN1owQhs3a9iJ-Uw';
@@ -48,15 +32,21 @@ export class ProductPageComponent implements OnInit {
     public dialog: MatDialog,
     private productService: ProductService
     ) {
-    this.productImage = this.product.imageList[0];
-    this.colorSelected =  this.product.availableColors[0];
   }
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe((params) => {
-      const id = params.id; // (+) converts string 'id' to a number
+      const id = +params.id; // (+) converts string 'id' to a number
       this.getProductDetail(id);
-      this.product= this.productService.product;
+      setTimeout(()=>{
+        this.product= this.productService.product;
+      console.log(this.product);
+      if(this.product){
+        this.productImage = this.product.imageList[0];
+        this.colorSelected =  this.product.availableColors[0];
+      }
+      },1000)
+
     });
   }
 

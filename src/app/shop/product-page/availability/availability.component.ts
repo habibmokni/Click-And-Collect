@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { Store } from 'src/app/shared/models/store.model';
 import { MapsService } from 'src/app/shared/services/maps.service';
 import { StoreService } from 'src/app/shared/services/store.service';
@@ -15,8 +15,17 @@ export class AvailabilityComponent implements OnInit {
   mapWidth = 350;
   private screenSize = screen.width;
   closestStore!: Store;
+  nearByStores: {stores: Store, distances: number, stock: number}[] =[];
+  productAvailabilty: string[] = [];
+  stores: Store[] = [];
 
-  constructor(private ngZone: NgZone, private mapService: MapsService, private storeService: StoreService) {}
+  constructor(private ngZone: NgZone, private mapService: MapsService, private storeService: StoreService) {
+    this.storeService.store.subscribe(stores=>{
+      console.log(stores);
+      this.stores = stores;
+      console.log(this.stores);
+    })
+  }
 
   ngOnInit(): void {
     if(this.screenSize <= 599){
@@ -45,6 +54,10 @@ export class AvailabilityComponent implements OnInit {
 
         console.log(latitude + "longitude" + longitude);
         this.mapService.find_closest_marker(latitude, longitude);
+
+        this.checkProductAvailabilty('#ADDDDA', 41);
+
+        //yahan method run karein gy availability ka
         this.findClosestStore();
         console.log(this.closestStore);
       });
@@ -63,12 +76,46 @@ export class AvailabilityComponent implements OnInit {
   }
 
   findClosestStore(){
-    for(let store of this.storeService.store){
-      console.log(store.location);
-      console.log(this.mapService.closestMarker);
-      if(store.location.lat === this.mapService.closestMarker.lat && store.location.lng === this.mapService.closestMarker.lng){
-        this.closestStore = store;
+    this.storeService.store.forEach(stores=>{
+      for(let store of stores){
+        if(store.location.lat === this.mapService.closestMarker.lat && store.location.lng === this.mapService.closestMarker.lng){
+          this.closestStore = store;
+        }
       }
-    }
+    })
+
   }
+
+  checkProductAvailabilty(color: string, productSize: number){
+    let i=0;
+
+      for(let store of this.stores){
+        console.log(store);
+          //yahan products ki for loop use karni h
+
+          for(let variant of store.products[0].variants){
+
+            if(variant.color === color){
+              console.log
+              for(let index=0; index<5; index++){
+
+                if(variant.sizes[index] === productSize){
+                  console.log(variant.sizes[index]);
+                  this.nearByStores.push({
+                    stores: store,
+                    stock: variant.inStock[index],
+                    distances: this.mapService.distanceInKm[i]
+                  });
+                  console.log(this.nearByStores);
+               }
+
+              }
+            }
+
+            }
+          }
+          i++;
+
+    }
+
 }

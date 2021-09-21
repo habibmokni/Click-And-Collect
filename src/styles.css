@@ -31,6 +31,10 @@ span.mat-button-toggle-label-content{
 .snackbar button{
   color: white;
 }
+.mat-dialog-container{
+  width: 90vw !important;
+  height: 90vh !important;
+}
 h1 {
   font-size: 32px;
   line-height: 50%;
