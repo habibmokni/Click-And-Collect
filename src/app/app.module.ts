@@ -30,6 +30,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SnackbarService } from './shared/services/snackbar.service';
 import { ImageSliderComponent } from './shop/image-slider/image-slider.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import { OrderSuccessComponent } from './checkout/order-success/order-success.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
     PaymentMethodsComponent,
     AvailabilityComponent,
     ShopComponent,
-    ImageSliderComponent
+    ImageSliderComponent,
+    OrderSuccessComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +60,6 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
     FormsModule,
     ReactiveFormsModule,
     NgxMatTimepickerModule,
-    FontAwesomeModule,
     FlexLayoutModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
