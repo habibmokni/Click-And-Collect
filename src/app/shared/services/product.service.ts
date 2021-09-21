@@ -3,7 +3,7 @@ import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { Product } from "../models/product.model";
 import { StoreService } from "./store.service";
 import { SnackbarService } from "./snackbar.service";
-import { Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 @Injectable()
 export class ProductService{
 
@@ -11,9 +11,12 @@ export class ProductService{
 
   product!: Product;
 
+  selectedColorAndSize: {color: string, size: number};
   orderPrice: number = 0;
 
-  constructor(private snackBarService: SnackbarService, private storeService: StoreService, private db: AngularFirestore){}
+  constructor(private snackBarService: SnackbarService, private storeService: StoreService, private db: AngularFirestore){
+    this.selectedColorAndSize = {color: '', size: 0};
+  }
 
 
   addProductToDatabase(product: Product){

@@ -57,11 +57,7 @@
       </div>
     </div>
     <div class="product_size">
-      <div fxLayout="row">
       <h2>Available Sizes</h2>
-      <span class="filler"></span>
-      <h4 style="color: red;" [ngStyle]="{float: 'right', lineHeight: '29px'}">Items in stock: {{product.inStock}}</h4>
-      </div>
       <div class="product_size_list">
         <button
         *ngFor="let size of product.availableSizes; let i=index"
@@ -71,9 +67,24 @@
         >{{size}}</button>
       </div>
     </div>
-    <div class="product_availability" fxLayout="column" fxLayoutAlign="center center">
+    <div *ngIf="!storeSelected" class="product_availability" fxLayout="column" fxLayoutAlign="center center">
       <h4>Check product availability in stores nearby</h4>
       <button mat-button (click)="openDialog()" style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); border-radius: 17px; color: white;">Check Availability</button>
+    </div>
+    <div class="selected_store">
+      <mat-card *ngIf="storeSelected">
+        <mat-card-content>
+          <h2>Deichmann</h2>
+          <h4 style="display: contents;">Address: {{storeSelected.address}}</h4>
+        </mat-card-content>
+        <mat-card-actions style="text-align: center;">
+          <button
+          (click)="openDialog()"
+          style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); border-radius: 17px; color: white;"
+          mat-raised-button
+          >Change Store</button>
+        </mat-card-actions>
+      </mat-card>
     </div>
     <div>
       <button class="add_to_cart" mat-raised-button (click)="addToCart()"><h3 [ngStyle]="{marginBottom: '0px'}">Add to Cart</h3></button>

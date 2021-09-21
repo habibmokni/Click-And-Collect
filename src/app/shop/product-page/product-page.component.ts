@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatRadioChange } from '@angular/material/radio';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from 'src/app/shared/services/product.service';
+import { SnackbarService } from 'src/app/shared/services/snackbar.service';
+import { StoreService } from 'src/app/shared/services/store.service';
 import { Product } from '../../shared/models/product.model';
 import { AvailabilityComponent } from './availability/availability.component';
 
@@ -17,11 +19,13 @@ export class ProductPageComponent implements OnInit {
   noOfItems = 1;
 
   sub: any;
-
+  storeSelected!: {address: string, location: {lat: number, lng: number}};
   product!: Product;
 
   productImage!: string;
   colorSelected!: string;
+  isColorSelected = false;
+  isSizeSelected = false;
   grandTotal: number = 0;
 
   apiKey = 'AIzaSyCKj-l5U2bLY3wEx-9DN1owQhs3a9iJ-Uw';
@@ -30,8 +34,13 @@ export class ProductPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public dialog: MatDialog,
-    private productService: ProductService
+    private productService: ProductService,
+    private storeService: StoreService,
+    private snackbarService: SnackbarService
     ) {
+      this.storeService.selectedStore.subscribe(store=>{
+        this.storeSelected = store;
+      });
   }
 
   ngOnInit(): void {
@@ -52,6 +61,7 @@ export class ProductPageComponent implements OnInit {
 
   onSizeSelect(size: number, index:number){
     this.product.size = size;
+    this.isSizeSelected = true;
     const buttonList = document.getElementsByClassName('button');
     buttonList[index].classList.add("active");
     if(this.preBtn){
@@ -66,16 +76,30 @@ export class ProductPageComponent implements OnInit {
 
 
   onColorPick(event: MatRadioChange | MatButtonToggleChange){
+    this.isColorSelected = true;
     this.productImage = this.product.imageList[event.value];
     this.colorSelected =  this.product.availableColors[event.value];
   }
 
   openDialog() {
-    this.dialog.open(AvailabilityComponent, {
-      data: {
-        animal: 'panda'
+    if(this.isColorSelected){
+      if(this.isSizeSelected){
+        this.productService.selectedColorAndSize = {
+          color: this.colorSelected,
+          size: this.product.size
+        };
+        this.dialog.open(AvailabilityComponent, {
+          data: {
+            animal: 'panda'
+          }
+        });
+      }else{
+        this.snackbarService.error('Please select product size!');
       }
-    });
+    }else{
+      this.snackbarService.error('Please select product color!');
+    }
+
   }
 
   addToCart(){

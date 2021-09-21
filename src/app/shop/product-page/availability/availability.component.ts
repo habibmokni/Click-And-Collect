@@ -1,7 +1,9 @@
 import { Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from 'src/app/shared/models/store.model';
 import { MapsService } from 'src/app/shared/services/maps.service';
+import { ProductService } from 'src/app/shared/services/product.service';
+import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { StoreService } from 'src/app/shared/services/store.service';
 
 @Component({
@@ -12,19 +14,26 @@ import { StoreService } from 'src/app/shared/services/store.service';
 export class AvailabilityComponent implements OnInit {
   @ViewChild('search') address!: ElementRef;
   mapHeight = 410;
-  mapWidth = 350;
+  mapWidth = 700;
   private screenSize = screen.width;
   closestStore!: Store;
   nearByStores: {stores: Store, distances: number, stock: number}[] =[];
   productAvailabilty: string[] = [];
   stores: Store[] = [];
 
-  constructor(private ngZone: NgZone, private mapService: MapsService, private storeService: StoreService) {
+  constructor(
+    private ngZone: NgZone,
+    private mapService: MapsService,
+    private storeService: StoreService,
+    private snackbarService: SnackbarService,
+    private dialog: MatDialog,
+    private productService: ProductService
+    ) {
     this.storeService.store.subscribe(stores=>{
       console.log(stores);
       this.stores = stores;
       console.log(this.stores);
-    })
+    });
   }
 
   ngOnInit(): void {
@@ -32,6 +41,8 @@ export class AvailabilityComponent implements OnInit {
       this.mapHeight= 350;
       this.mapWidth= 250;
     };
+    const colorAndSizeSelected = this.productService.selectedColorAndSize;
+    console.log(colorAndSizeSelected);
     setTimeout(()=>{
       const input= document.getElementById("search") as HTMLInputElement;
 
@@ -55,8 +66,8 @@ export class AvailabilityComponent implements OnInit {
         console.log(latitude + "longitude" + longitude);
         this.mapService.find_closest_marker(latitude, longitude);
 
-        this.checkProductAvailabilty('#ADDDDA', 41);
-
+        this.checkProductAvailabilty(colorAndSizeSelected.color,colorAndSizeSelected.size);
+        console.log(colorAndSizeSelected.color+ ''+ colorAndSizeSelected.size);
         //yahan method run karein gy availability ka
         this.findClosestStore();
         console.log(this.closestStore);
@@ -113,9 +124,21 @@ export class AvailabilityComponent implements OnInit {
             }
 
             }
+            i++
           }
-          i++;
 
     }
 
+    onStoreSelect(address: string, location: {lat: number, lng: number}){
+      this.storeService.selectedStore.next({
+        address: address,
+        location: location
+      });
+      this.storeService.storeSelection = {
+        address: address,
+        location: location
+      }
+      this.snackbarService.success('Store selected as prefered');
+      this.dialog.closeAll();
+    }
 }

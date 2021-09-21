@@ -1,14 +1,26 @@
-<div class="delivery_type" fxLayout="column" fxLayoutAlign="center center">
+<div fxLayout="column" fxLayoutAlign="center center">
   <h2>Delivery type</h2>
   <div>
-    <button mat-button disabled><mat-icon>store_front</mat-icon><h4>Store</h4></button>
-    <button mat-button (click)="onTypeSelect()"><mat-icon>transfer_within_a_station</mat-icon><h4>Pickup</h4></button>
-    <button mat-button disabled><mat-icon>local_shipping</mat-icon><h4>Delivery</h4></button>
+    <button mat-button disabled class="delivery_type"><mat-icon>home</mat-icon><h4>Store</h4></button>
+    <button mat-button class="delivery_type" (click)="onTypeSelect()"><mat-icon>store_front</mat-icon><h4>Pickup</h4></button>
+    <button mat-button disabled class="delivery_type"><mat-icon>local_shipping</mat-icon><h4>Delivery</h4></button>
   </div>
   <div [formGroup]="shippingMethod">
       <input type="text" formControlName="type" [formControl]="type" style="display: none;">
-    <div class="pickup_map" fxLayoutAlign="center center">
+    <div class="pickup_map" fxLayoutAlign="center center" *ngIf="!selectedStore">
       <app-maps [mapHeight]="mapHeight" [mapWidth]="mapWidth"></app-maps>
+    </div>
+    <div *ngIf="selectedStore" [ngStyle.gt-xs]="{margin: '35px'}" style="margin: 35px 0px;">
+      <mat-card>
+        <mat-card-title>Selected Store</mat-card-title>
+        <mat-card-subtitle>Deichmann</mat-card-subtitle>
+        <mat-card-content>
+          <p>Address: {{selectedStore.address}}</p>
+        </mat-card-content>
+        <mat-card-actions style="text-align: center;">
+          <button mat-raised-button class="change_button" (click)="onOpenDialog()">Change</button>
+        </mat-card-actions>
+      </mat-card>
     </div>
     <div class="pickup_date" >
       <mat-form-field appearance="fill" fxLayoutAlign="center center">

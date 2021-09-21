@@ -1,3 +1,7 @@
+.mat-dialog-container{
+  width: 90vw !important;
+  height: 90vh !important;
+}
 .product_main{
   width: 100vw;
   height: 90vh;
@@ -159,6 +163,9 @@
 }
 .product_availability_zipcode {
   width: 327px;
+}
+.selected_store{
+  margin: 15px 0px;
 }
 .product_total_amount h2{
   font-weight: 400;

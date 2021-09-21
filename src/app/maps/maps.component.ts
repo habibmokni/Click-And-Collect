@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Store } from '../shared/models/store.model';
 import { MapsService } from '../shared/services/maps.service';
+import { SnackbarService } from '../shared/services/snackbar.service';
 import { StoreService } from '../shared/services/store.service';
 import { Location} from './../shared/models/location.model';
 
@@ -42,6 +44,8 @@ export class MapsComponent implements OnInit {
   constructor(
     private storeService: StoreService,
     private mapsService: MapsService,
+    private snackBarService: SnackbarService,
+    private dialog: MatDialog,
     httpClient: HttpClient
     ){
       this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=AIzaSyD06sIvfDMvAMu7HJf690MO4LrcxBuUvjI&libraries=places', 'callback')
@@ -82,11 +86,16 @@ export class MapsComponent implements OnInit {
     this.storeService.currentStore = this.currentStore;
   }
   onSelectStore(){
-    this.storeService.selectedStore = {
-      location: this.storeService.currentStoreLocation,
-      address: this.currentStore.address
-    };
-    alert( this.storeService.currentStore.name +' is now selected store'+ this.currentStore.address);
+    this.storeService.selectedStore.next({
+      address:  this.currentStore.address,
+      location: this.storeService.currentStoreLocation
+    });
+    this.storeService.storeSelection = {
+      address:  this.currentStore.address,
+      location: this.storeService.currentStoreLocation
+    }
+    this.snackBarService.success('Store Selected Successfully');
+    this.infoWindow.close();
+    this.dialog.closeAll();
   }
-
 }

@@ -6,14 +6,24 @@
       <mat-form-field class="product_availability_zipcode" style="width: 230px; margin-top: 10px;">
         <input id="search" matInput type="text" placeholder="Enter zip code or address">
       </mat-form-field>
-      <mat-card *ngIf="nearByStores">
-        <mat-card-title>Closest Store</mat-card-title>
-        <mat-card-content *ngFor="let store of nearByStores; let i= index;">
-          <h2>{{store.stores.name}}</h2>
-          <h4 style="display: contents;">Address: {{store.stores.address}}</h4>
-          <h5><mat-icon [ngStyle]="{color: store.stock>5 ? 'green' : 'red'}">room</mat-icon> Distance: {{store.distances.toFixed(2)}}km</h5>
-        </mat-card-content>
-      </mat-card>
+      <div *ngIf="nearByStores">
+        <div *ngFor="let store of nearByStores; let i= index;">
+
+            <mat-card-content >
+              <button mat-button (click)="onStoreSelect(store.stores.address, store.stores.location)">
+                <h2>{{store.stores.name}}</h2>
+              </button><br />
+              <h4 style="display: contents;">Address: {{store.stores.address}}</h4>
+              <h5>
+                <mat-icon *ngIf="store.stock>5" style="color: green;">room</mat-icon>
+                <mat-icon *ngIf="store.stock<=5 && store.stock>0" style="color: yellow;">room</mat-icon>
+                <mat-icon *ngIf="store.stock===0"style="color: red;">room</mat-icon>
+                {{store.distances.toFixed(2)}}km
+              </h5>
+              </mat-card-content>
+
+          </div>
+      </div>
     </mat-tab>
     <mat-tab label="Map" class="maps">
       <app-maps [mapHeight]="mapHeight" [mapWidth]="mapWidth"></app-maps>

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/compat/firestore";
 import { Store } from "../models/store.model";
 import { map } from "rxjs/operators"
-import { Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { Product } from "../models/product.model";
 
 
@@ -12,10 +12,10 @@ export class StoreService{
   currentStoreLocation: {lat: number, lng: number} = {lat: 0, lng: 0};
   currentStore: Store;
 
-  selectedStore!: {address: string, location:{ lat: number, lng:number}};
+  selectedStore = new Subject<{address: string, location:{ lat: number, lng:number}}>();
   storeLocations: google.maps.LatLngLiteral[] = [];
 
-
+  storeSelection!: {address: string, location:{ lat: number, lng:number}};
   private storeCollection!: AngularFirestoreCollection<Store>;
   store!: Observable<Store[]>;
 

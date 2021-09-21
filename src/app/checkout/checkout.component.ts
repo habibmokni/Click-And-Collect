@@ -8,6 +8,10 @@ import { Order } from '../shared/models/order.model';
 import { ProductService } from '../shared/services/product.service';
 import { StoreService } from '../shared/services/store.service';
 import { Product } from '../shared/models/product.model';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { SnackbarService } from '../shared/services/snackbar.service';
+import { MatDialog } from '@angular/material/dialog';
+import { OrderSuccessComponent } from './order-success/order-success.component';
 
 @Component({
   selector: 'app-checkout',
@@ -48,16 +52,23 @@ export class CheckoutComponent implements OnInit {
   });
   stepperOrientation: Observable<StepperOrientation>;
 
+  storeAddress!: string;
+
   cartProducts: Product[]= [];
   orderPrice: number = 0;
 
   constructor(
     private _formBuilder: FormBuilder,
     breakpointObserver: BreakpointObserver,
-
+    private db: AngularFirestore,
     private productService: ProductService,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private snackbarService: SnackbarService,
+    private dialog: MatDialog
     ) {
+    this.storeService.selectedStore.subscribe(store=>{
+      this.storeAddress = store.address;
+    });
     this.stepperOrientation = breakpointObserver.observe('(min-width: 800px)')
       .pipe(map(({matches}) => matches ? 'horizontal' : 'vertical'));
   }
@@ -79,7 +90,7 @@ export class CheckoutComponent implements OnInit {
       productsOrdered: this.productService.getLocalCartProducts(),
       storeLocation: {
         id : 2020,
-        address: this.storeService.selectedStore.address
+        address: this.storeAddress
       },
       pickupDate: {
         start: this.firstFormGroup.get('shippingMethod.start')?.value,
@@ -90,5 +101,11 @@ export class CheckoutComponent implements OnInit {
       paymentOption: this.thirdFormGroup.get('paymentMethod.paymentOption')?.value
     }
     console.log(this.order);
+  }
+  onOrderConfirmation(){
+    this.db.collection<Order>('orderList').add(this.order);
+    this.snackbarService.success('Order placed Successfully');
+    this.dialog.open(OrderSuccessComponent);
+    this.productService.removeAllLocalCartProduct();
   }
 }
