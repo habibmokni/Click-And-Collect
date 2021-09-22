@@ -182,11 +182,12 @@ export class StoreService{
    this.db.collection('storeLocations').add(location);
   }
   updateProducts(){
-    this.db.collection('storeList').doc('/Ll1V5hZEImI1FLrctOvn').update(
-      {
-        products: this.currentStore.products
-      }
-
-    )
+//    this.db.collection('storeList').doc('/Ll1V5hZEImI1FLrctOvn').update(
+//      {
+//        products: this.currentStore.products
+//      }
+//
+//    )
+this.db.collection('productList').add(this.currentStore.products[1]);
   }
 }

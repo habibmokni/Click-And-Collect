@@ -19,7 +19,7 @@
 }
 
 @media (max-width: 599px){
-  .delivery_type button{
+  .delivery_type{
     margin: 5px;
   }
   .map-container{

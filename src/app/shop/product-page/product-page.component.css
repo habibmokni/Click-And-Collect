@@ -186,6 +186,7 @@ hr {
   line-height: 22px;
   position: fixed;
   bottom: 1%;
+  right: 5%;
 }
 .mat-radio-button ~ .mat-radio-button {
   margin-left: 0px;
@@ -193,15 +194,22 @@ hr {
 
 
 @media (max-width: 1200px){
-
+  .add_to_cart{
+    right: 3%;
+  }
 }
 
 @media (max-width: 920px){
 
+  .add_to_cart{
+    right: 2%;
+  }
 }
 
 @media (max-width: 767px){
-
+  .add_to_cart{
+    right: 1%;
+  }
 }
 
 @media (max-width: 599px){
@@ -371,22 +379,11 @@ hr {
   .product_availability_zipcode {
     width: 327px;
   }
-  .product_total_amount{
-    margin: 25px 0px;
-  }
-  .product_total_amount h2{
-    font-weight: 400;
-  }
-  .grand_total h2 {
-    font-weight: 700;
-  }
   .add_to_cart{
-    background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);
-    color: white;
-    border-radius: 15px;
-    width: 327px;
     height: 55px;
-    font-weight: 700;
-    line-height: 22px;
+    right: auto;
+  }
+  .selected_store{
+    margin-bottom: 80px;
   }
 }

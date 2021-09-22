@@ -21,7 +21,7 @@
     </div>
     <div class="product-grid">
       <div fxLayout class="forth-div">
-        <div fxLayout *ngIf="cardMode" class="products-add" fxLayoutGap.gt-xs="25px">
+        <div fxLayout *ngIf="cardMode" class="products-add" fxLayoutGap.gt-xs="25px" fxLayoutGap.xs="5px">
           <mat-card-content *ngFor="let product of productList | async; let i= index;">
             <mat-card fxLayout="column" [ngStyle.gt-xs]="{height: '330px'}">
               <a [routerLink]="['/product', product.id]"><img class="product-image" mat-card-image src="{{product.productImage}}" alt="img"></a>

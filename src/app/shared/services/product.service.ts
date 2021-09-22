@@ -23,7 +23,7 @@ export class ProductService{
     this.db.collection('products').add(product);
   }
   fetchProduct(){
-    this.productList = this.db.collection<Product>('products').valueChanges();
+    this.productList = this.db.collection<Product>('productList').valueChanges();
   }
   deleteProduct(key: string){
     //this.productList.remove(key);

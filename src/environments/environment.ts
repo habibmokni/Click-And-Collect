@@ -5,12 +5,13 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyALiSLYcP3ZvllAYVk0QbkEvqNuYBoFtvo",
-    authDomain: "clickandcollect-c19f1.firebaseapp.com",
-    projectId: "clickandcollect-c19f1",
-    storageBucket: "clickandcollect-c19f1.appspot.com",
-    messagingSenderId: "180844256322",
-    appId: "1:180844256322:web:760e71b3ca834ae9cc21db"
+    apiKey: "AIzaSyAQd53SYqN2AoIkMTw_WL0LAQgWYruxojs",
+    authDomain: "clickandcollect-324914.firebaseapp.com",
+    projectId: "clickandcollect-324914",
+    storageBucket: "clickandcollect-324914.appspot.com",
+    messagingSenderId: "833966239836",
+    appId: "1:833966239836:web:7428016e5ac3760a8eb699",
+    measurementId: "G-HD98CCQ8LB"
   }
 };
 
