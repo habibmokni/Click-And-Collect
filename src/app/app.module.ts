@@ -31,6 +31,7 @@ import { SnackbarService } from './shared/services/snackbar.service';
 import { ImageSliderComponent } from './shop/image-slider/image-slider.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 import { OrderSuccessComponent } from './checkout/order-success/order-success.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { OrderSuccessComponent } from './checkout/order-success/order-success.co
     AvailabilityComponent,
     ShopComponent,
     ImageSliderComponent,
-    OrderSuccessComponent
+    OrderSuccessComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
