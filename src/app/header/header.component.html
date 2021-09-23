@@ -2,10 +2,10 @@
   <span><a mat-button style="text-decoration: none; color: white;" routerLink="/">Click&Collect</a></span>
   <span class="filler"></span>
   <div class="navigation" fxHide.lt-sm>
-    <a mat-button routerLink="/">
+    <a mat-button routerLink="/home">
       Home
     </a>
-    <a mat-button>
+    <a mat-button routerLink="/products">
       Products
     </a>
     <a mat-button>
@@ -16,6 +16,6 @@
     </a>
   </div>
   <div class="cart">
-    <a routerLink="shoppingcart" mat-icon-button><mat-icon>shopping_cart</mat-icon></a>
+    <a routerLink="shoppingcart" mat-icon-button><mat-icon matBadge="{{this.productService.getLocalCartProducts().length}}" matBadgeColor="warn">shopping_cart</mat-icon></a>
   </div>
 </mat-toolbar>

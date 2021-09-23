@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { StepperOrientation } from '@angular/material/stepper';
-import {BreakpointObserver} from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Order } from '../shared/models/order.model';
@@ -24,9 +24,8 @@ export class CheckoutComponent implements OnInit {
 
   shippingMethod = new FormGroup({
     type: new FormControl('Self pickup'),
-    start: new FormControl(''),
-    end: new FormControl(''),
-    time: new FormControl('')
+    dateControl: new FormControl('', [Validators.required]),
+    shippingAddress: new FormControl('', [Validators.required])
   })
 
 
@@ -35,17 +34,17 @@ export class CheckoutComponent implements OnInit {
   });
 
   billing= new FormGroup({
-    name: new FormControl(''),
-    email: new FormControl(''),
-    phoneNo: new FormControl(''),
-    address1: new FormControl(''),
-    address2: new FormControl('')
+    name: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required]),
+    phoneNo: new FormControl('', [Validators.required]),
+    address1: new FormControl('', [Validators.required]),
+    address2: new FormControl('', [Validators.required])
   })
   secondFormGroup = this._formBuilder.group({
     billing: this.billing
   });
   paymentMethod= new FormGroup({
-    paymentOption: new FormControl('')
+    paymentOption: new FormControl('', [Validators.required])
   })
   thirdFormGroup = this._formBuilder.group({
     paymentMethod: this.paymentMethod
@@ -68,6 +67,7 @@ export class CheckoutComponent implements OnInit {
     ) {
     this.storeService.selectedStore.subscribe(store=>{
       this.storeAddress = store.address;
+      console.log(store.address);
     });
     this.stepperOrientation = breakpointObserver.observe('(min-width: 800px)')
       .pipe(map(({matches}) => matches ? 'horizontal' : 'vertical'));
@@ -78,6 +78,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   onSubmit(){
+    console.log(this.firstFormGroup);
     this.order = {
       orderId: 2020,
       billingDetails: {
@@ -90,13 +91,9 @@ export class CheckoutComponent implements OnInit {
       productsOrdered: this.productService.getLocalCartProducts(),
       storeLocation: {
         id : 2020,
-        address: this.storeAddress
+        address: this.firstFormGroup.get('shippingMethod.shippingAddress')?.value
       },
-      pickupDate: {
-        start: this.firstFormGroup.get('shippingMethod.start')?.value,
-        end: this.firstFormGroup.get('shippingMethod.end')?.value
-      },
-      pickupTime: this.firstFormGroup.get('shippingMethod.time')?.value,
+      pickupDate: this.firstFormGroup.get('shippingMethod.dateControl')?.value,
       pickupType: this.firstFormGroup.get('shippingMethod.type')?.value,
       paymentOption: this.thirdFormGroup.get('paymentMethod.paymentOption')?.value
     }

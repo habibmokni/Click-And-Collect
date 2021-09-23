@@ -10,10 +10,6 @@ export interface Order{
     address: string;
   }
   pickupType: string;
-  pickupDate: {
-    start: Date;
-    end: Date
-  };
-  pickupTime: String;
+  pickupDate: Date;
   paymentOption: String;
 }

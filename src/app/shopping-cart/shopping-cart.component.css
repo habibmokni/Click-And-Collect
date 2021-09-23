@@ -1,6 +1,6 @@
 .shopping_cart{
-  flex: 2;
   margin: 25px 70px;
+  width: 60vw;
 }
 hr{
   width: 260px;
@@ -50,7 +50,9 @@ hr{
 }
 
 .product_total_amount{
-  flex: 1;
+  position: fixed;
+  right: 4%;
+  top: 25%;
 }
 .product_total_amount h2{
   font-weight: 400;
@@ -83,6 +85,7 @@ hr{
 @media (max-width: 599px){
   .shopping_cart{
     margin: 0px;
+    width: 100vw;
     display: block;
   }
   .back_to_product{
@@ -136,6 +139,10 @@ hr{
     margin: auto;
     display: block;
     width: 90vw;
+    position: relative;
+    top: auto;
+    right: auto;
+    margin-bottom: 80px;
   }
   .product_total_amount h2{
     font-weight: 400;

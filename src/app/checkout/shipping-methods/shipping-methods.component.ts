@@ -14,6 +14,13 @@ export class ShippingMethodsComponent implements OnInit {
   type= new FormControl;
   @Input() shippingMethod!: FormGroup;
 
+  dateControl = new FormControl(new Date());
+  minDate= new Date();
+
+  stepHour!: any;
+  stepMinute!: any;
+  stepSecond!: any;
+
   selectedStore!: {address: string, location: {lat: number, lng: number}};
 
   mapHeight = 410;
@@ -37,8 +44,7 @@ export class ShippingMethodsComponent implements OnInit {
     }
   }
 
-  onTypeSelect(){
-  }
+
   onOpenDialog(){
     this.dialog.open(AvailabilityComponent);
   }

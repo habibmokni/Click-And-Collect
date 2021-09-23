@@ -17,6 +17,11 @@
           <img src="{{payment.logo}}" alt="image" [ngStyle]="{width: '40px'}">{{payment.name}}
         </mat-radio-button>
       </mat-radio-group>
+      <span
+      *ngIf="!paymentMethod.get('paymentOption')!.valid && paymentMethod.get('paymentOption')!.touched"
+      class="invalid-feedback" style="display: block;">
+       *Please select a payment method
+     </span>
     </mat-card-content>
   </mat-card>
 

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from 'src/app/shared/models/store.model';
 import { MapsService } from 'src/app/shared/services/maps.service';
@@ -50,6 +50,7 @@ export class AvailabilityComponent implements OnInit {
 
       autocomplete.addListener("place_changed", () => {
       this.ngZone.run(() => {
+        this.nearByStores= [];
         //get the place result
         let place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
@@ -67,7 +68,6 @@ export class AvailabilityComponent implements OnInit {
         this.mapService.find_closest_marker(latitude, longitude);
 
         this.checkProductAvailabilty(colorAndSizeSelected.color,colorAndSizeSelected.size);
-        console.log(colorAndSizeSelected.color+ ''+ colorAndSizeSelected.size);
         //yahan method run karein gy availability ka
         this.findClosestStore();
         console.log(this.closestStore);
@@ -119,7 +119,7 @@ export class AvailabilityComponent implements OnInit {
                   });
                   console.log(this.nearByStores);
                }
-
+                  this.nearByStores.sort((a,b)=> a.distances-b.distances)
               }
             }
 

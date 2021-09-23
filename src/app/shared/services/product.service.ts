@@ -3,7 +3,7 @@ import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { Product } from "../models/product.model";
 import { StoreService } from "./store.service";
 import { SnackbarService } from "./snackbar.service";
-import { Observable, Subject } from "rxjs";
+import { Observable} from "rxjs";
 @Injectable()
 export class ProductService{
 
@@ -68,8 +68,6 @@ export class ProductService{
     getLocalCartProducts(): Product[] {
       const products: Product[] =
         JSON.parse(window.localStorage.getItem("avct_item")!) || [];
-        console.log('get cart items called' + products) ;
-
       return products;
     }
 

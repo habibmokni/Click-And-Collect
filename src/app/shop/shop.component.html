@@ -24,7 +24,7 @@
         <div fxLayout *ngIf="cardMode" class="products-add" fxLayoutGap.gt-xs="25px" fxLayoutGap.xs="5px">
           <mat-card-content *ngFor="let product of productList | async; let i= index;">
             <mat-card fxLayout="column" [ngStyle.gt-xs]="{height: '330px'}">
-              <a [routerLink]="['/product', product.id]"><img class="product-image" mat-card-image src="{{product.productImage}}" alt="img"></a>
+              <a [routerLink]="['/products', product.id]"><img class="product-image" mat-card-image src="{{product.productImage}}" alt="img"></a>
               <mat-card-content>
                 <p>{{product.category}}</p>
                 <h1>{{product.name}}</h1>
@@ -45,7 +45,7 @@
                       placement="top"
                       mdbTooltip="Quick Look"
                       container="body"
-                      [routerLink]="['/product', product.id]"
+                      [routerLink]="['/products', product.id]"
                     >
                       <mat-icon>visibility</mat-icon>
                     </a>
@@ -87,7 +87,7 @@
                 class="product-icon"
                 placement="top"
                 container="body"
-                [routerLink]="['/product', product.id]"
+                [routerLink]="['/products', product.id]"
               >
               <mat-icon>visibility</mat-icon>
               </a>
@@ -118,7 +118,7 @@
       <mat-card-content fxLayout *ngFor="let product of productList | async; let i = index;">
         <img src="{{product.productImage}}" alt="img" style="height: 50px;">
         <div fxLayout="column" class="top-rated">
-          <a [routerLink]="['/product', i]"><h3>{{product.name}}</h3></a>
+          <a [routerLink]="['/products', product.id]"><h3>{{product.name}}</h3></a>
           <mat-card-subtitle *ngIf="true">${{product.price}}</mat-card-subtitle>
           <mat-card-subtitle *ngIf="false">Rs. product.productPrice/- <span><del class="discounted">Was Rs. product.productDiscount/-</del></span></mat-card-subtitle>
         </div>
