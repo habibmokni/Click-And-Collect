@@ -1,11 +1,17 @@
-.header{
-  background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);
-  color: white;
+.header {
+	background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
+	color: white;
 }
-.filler{
-  flex: 1 auto;
+.filler {
+	flex: 1 auto;
 }
 a {
-  text-decoration: none;
-  color: white;
+	text-decoration: none;
+	color: white;
+}
+
+.logo {
+	margin-left: 10px;
+	width: 40px;
+	height: 40px;
 }

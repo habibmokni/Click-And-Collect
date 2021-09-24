@@ -1,5 +1,7 @@
 <mat-toolbar class="header" fxLayout>
-  <span><a mat-button style="text-decoration: none; color: white;" routerLink="/">Click&Collect</a></span>
+  <span>
+    <img class="logo" alt="logo" src="../../assets/images/logos/iShoes-logo.png">
+  </span>
   <span class="filler"></span>
   <div class="navigation" fxHide.lt-sm>
     <a mat-button routerLink="/home">
@@ -16,6 +18,9 @@
     </a>
   </div>
   <div class="cart">
-    <a routerLink="shoppingcart" mat-icon-button><mat-icon matBadge="{{this.productService.getLocalCartProducts().length}}" matBadgeColor="warn">shopping_cart</mat-icon></a>
+    <a routerLink="shoppingcart" mat-icon-button>
+      <mat-icon matBadge="{{this.productService.getLocalCartProducts().length}}" matBadgeColor="warn">shopping_cart
+      </mat-icon>
+    </a>
   </div>
 </mat-toolbar>

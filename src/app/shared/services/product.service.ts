@@ -1,88 +1,90 @@
-import { Injectable } from "@angular/core";
-import { AngularFirestore } from "@angular/fire/compat/firestore";
-import { Product } from "../models/product.model";
-import { StoreService } from "./store.service";
-import { SnackbarService } from "./snackbar.service";
-import { Observable} from "rxjs";
+import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Product } from '../models/product.model';
+import { StoreService } from './store.service';
+import { SnackbarService } from './snackbar.service';
+import { Observable } from 'rxjs';
 @Injectable()
-export class ProductService{
+export class ProductService {
+	productList!: Observable<Product[]>;
 
-  productList! : Observable<Product[]>;
+	product!: Product;
 
-  product!: Product;
+	selectedColorAndSize: { color: string; size: number };
+	orderPrice: number = 0;
 
-  selectedColorAndSize: {color: string, size: number};
-  orderPrice: number = 0;
+	constructor(
+		private snackBarService: SnackbarService,
+		private storeService: StoreService,
+		private db: AngularFirestore
+	) {
+		this.selectedColorAndSize = { color: '', size: 0 };
+	}
 
-  constructor(private snackBarService: SnackbarService, private storeService: StoreService, private db: AngularFirestore){
-    this.selectedColorAndSize = {color: '', size: 0};
-  }
+	addProductToDatabase(product: Product) {
+		this.db.collection('products').add(product);
+	}
+	fetchProduct() {
+		this.productList = this.db
+			.collection<Product>('productList')
+			.valueChanges();
+	}
+	deleteProduct(key: string) {
+		//this.productList.remove(key);
+	}
+	// Adding new Product to cart db if logged in else localStorage
+	addToCart(data: Product): void {
+		const a: Product[] = JSON.parse(localStorage.getItem('avct_item')!) || [];
+		a.push(data);
 
+		this.snackBarService.info('Product Added to Basket');
+		setTimeout(() => {
+			localStorage.setItem('avct_item', JSON.stringify(a));
+		}, 500);
+	}
 
-  addProductToDatabase(product: Product){
-    this.db.collection('products').add(product);
-  }
-  fetchProduct(){
-    this.productList = this.db.collection<Product>('productList').valueChanges();
-  }
-  deleteProduct(key: string){
-    //this.productList.remove(key);
-  }
-    // Adding new Product to cart db if logged in else localStorage
-    addToCart(data: Product): void {
-      const a: Product[] = JSON.parse(localStorage.getItem("avct_item")!) || [];
-      a.push(data);
+	// Removing cart from local
+	removeLocalCartProduct(product: Product) {
+		const products: Product[] = JSON.parse(localStorage.getItem('avct_item')!);
+		this.snackBarService.warning('Product removed from Shopping Basket.');
+		for (let i = 0; i < products.length; i++) {
+			if (products[i].id === product.id) {
+				products.splice(i, 1);
+				break;
+			}
+		}
+		// ReAdding the products after remove
+		localStorage.setItem('avct_item', JSON.stringify(products));
+	}
 
-      this.snackBarService.info("Adding Product to Cart");
-      setTimeout(() => {
-        localStorage.setItem("avct_item", JSON.stringify(a));
-      }, 500);
-    }
+	removeAllLocalCartProduct() {
+		const products: Product[] = JSON.parse(localStorage.getItem('avct_item')!);
 
-    // Removing cart from local
-    removeLocalCartProduct(product: Product) {
-      const products: Product[] = JSON.parse(localStorage.getItem("avct_item")!);
-      this.snackBarService.warning("Removing product from cart");
-      for (let i = 0; i < products.length; i++) {
-        if (products[i].id === product.id) {
-          products.splice(i, 1);
-          break;
-        }
-      }
-      // ReAdding the products after remove
-      localStorage.setItem("avct_item", JSON.stringify(products));
-    }
+		for (let i = 0; i < products.length; i++) {
+			delete products[i];
+		}
 
-    removeAllLocalCartProduct() {
-      const products: Product[] = JSON.parse(localStorage.getItem("avct_item")!);
+		// ReAdding the products after remove
+		localStorage.removeItem('avct_item');
+	}
 
-      for (let i = 0; i < products.length; i++) {
-        delete products[i];
-      }
+	// Fetching Locat CartsProducts
+	getLocalCartProducts(): Product[] {
+		const products: Product[] =
+			JSON.parse(window.localStorage.getItem('avct_item')!) || [];
+		return products;
+	}
 
-      // ReAdding the products after remove
-      localStorage.removeItem("avct_item");
-    }
-
-    // Fetching Locat CartsProducts
-    getLocalCartProducts(): Product[] {
-      const products: Product[] =
-        JSON.parse(window.localStorage.getItem("avct_item")!) || [];
-      return products;
-    }
-
-    getProductById(key: number) {
-      this.productList.forEach(products=>{
-        for(let product of products){
-          if(product.id === key){
-            this.product= product;
-            console.log("found the product")
-          }
-        }
-      })
-      //this.product = this.storeService.store[0].products![key];
-      //this.product = this.db.collection<Product>('products', ref => ref.where('id', '==', key)).valueChanges();
-
-    }
-
+	getProductById(key: number) {
+		this.productList.forEach((products) => {
+			for (let product of products) {
+				if (product.id === key) {
+					this.product = product;
+					console.log('found the product');
+				}
+			}
+		});
+		//this.product = this.storeService.store[0].products![key];
+		//this.product = this.db.collection<Product>('products', ref => ref.where('id', '==', key)).valueChanges();
+	}
 }
